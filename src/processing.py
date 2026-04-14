@@ -7,9 +7,9 @@ def filter_by_state(date_list: list[dict] | tuple[dict] = None, state: str = "EX
                 state_list.append(state_dict)  # добавляем словарь в конец списка каждую итерацию
         return state_list
     except KeyError:  # обращение к элементу словаря (dict) по key, которого в этом словаре нет
-        return "Error_11 - в аргументе функции, key в словарях или в одном из словарей отсутствует"
-    except Exception as e:  # другая непредвиденная ошибка
-        return "Error_12 - в функцию не подаются аргументы или поданы в ином формате"
+        return []  # "Error_11 - в аргументе функции, key в словарях или в одном из словарей отсутствует"
+    except Exception:  # другая непредвиденная ошибка
+        return []  # "Error_12 - в функцию не подаются аргументы или поданы в ином формате"
 
 
 # --------------------------------------------------------------------
@@ -21,6 +21,6 @@ def sort_by_date(date_list: list[dict] | tuple[dict] = None, reverse: bool = Tru
     try:  # обработка исключений
         return sorted(date_list, key=lambda x: x["date"], reverse=reverse)
     except KeyError:  # обращение к элементу словаря (dict) по key, которого в этом словаре нет
-        return "Error_13 - в аргументе функции, key в словарях или в одном из словарей отсутствует"
-    except Exception as e:  # другая непредвиденная ошибка
-        return "Error_14 - в функцию не подаются аргументы или поданы в ином формате"
+        return []  # "Error_13 - в аргументе функции, key в словарях или в одном из словарей отсутствует"
+    except Exception:  # другая непредвиденная ошибка
+        return []  # "Error_14 - в функцию не подаются аргументы или поданы в ином формате"
