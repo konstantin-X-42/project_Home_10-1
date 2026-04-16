@@ -1,6 +1,10 @@
-def test_one():
+def main() -> None:
+    pass
+
+
+def test_one() -> None:
     assert 1 == 1
 
 
-def new_changes():
+def new_changes() -> None:
     pass
