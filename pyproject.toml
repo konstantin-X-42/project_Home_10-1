@@ -38,6 +38,7 @@ strict = true
 disallow_untyped_defs = true
 warn_return_any = true
 exclude = ['venv']
+explicit_package_bases = true
 
 [tool.flake8]
 max-line-length = 119
