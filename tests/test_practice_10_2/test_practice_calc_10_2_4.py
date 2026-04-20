@@ -1,6 +1,6 @@
 import pytest
 
-from practice_10_2.calc import add, divide, multiply, subtract
+from practice_10_2.calc_10_2_4 import add, divide, multiply, subtract
 
 
 # Тест функции сложения

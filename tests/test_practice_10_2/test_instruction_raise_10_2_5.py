@@ -1,6 +1,6 @@
 import pytest
 
-from practice_10_2.instruction_raise import calculate_logarithm
+from practice_10_2.instruction_raise_10_2_5 import calculate_logarithm
 
 
 def test_calculate_logarithm() -> None:

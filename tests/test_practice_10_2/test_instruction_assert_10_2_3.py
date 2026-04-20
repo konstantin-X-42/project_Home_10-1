@@ -1,4 +1,4 @@
-from practice_10_2.instruction_assert import add_numbers, find_max, is_even
+from practice_10_2.instruction_assert_10_2_3 import add_numbers, find_max, is_even
 
 
 def test_add_numbers() -> None:
