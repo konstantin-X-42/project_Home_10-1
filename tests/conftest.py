@@ -3,8 +3,14 @@ import pytest
 
 @pytest.fixture
 def number_card():
-    """маскировка верного номера карты"""
+    """маскировка номера карты"""
     return "7000 79** **** 6361"
+
+
+@pytest.fixture
+def number_account():
+    """маскировка счёта пользователя"""
+    return "** 4305"
 
 
 # @pytest.fixture
