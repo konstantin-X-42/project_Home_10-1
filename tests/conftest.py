@@ -26,10 +26,10 @@ def number_account():
 #     return request.param
 
 
-@pytest.fixture
-def account():
-    """маскирует номер карты или счёта"""
-    return "** 9589"
+# @pytest.fixture
+# def account():
+#     """маскирует номер карты или счёта"""
+#     return "** 9589"
 
 
 # print(mask_account_card("Maestro 1596837868705199"))
