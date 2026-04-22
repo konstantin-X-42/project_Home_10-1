@@ -110,6 +110,7 @@ def test_not_correct_sort_by_date_true(date_list_true):
     )
     assert sort_by_date() != date_list_true
 
+
 def test_sort_by_date_none():
     # Проверяем, что функция возвращает список с ошибкой, если передать None
     assert sort_by_date(None) == "Error_13 - в функцию не подаются аргументы"

@@ -3,7 +3,7 @@ from typing import Any
 
 def filter_by_state(
     date_list: list[dict[str, Any]] | tuple[dict[str, Any]] | None = None, state: str = "EXECUTED"
-) -> Any: #list[dict[str, Any]]:
+) -> Any:  # list[dict[str, Any]]:
     """функция возвращает массив с выбранным ключом state по умолчанию возвращает с 'EXECUTED'"""
 
     try:  # обработка исключений
@@ -23,7 +23,7 @@ def filter_by_state(
 # --------------------------------------------------------------------
 
 
-def sort_by_date(date_list: list[dict[str, Any]] | None = None, reverse: bool = True) -> Any: #list[dict[str, Any]]:
+def sort_by_date(date_list: list[dict[str, Any]] | None = None, reverse: bool = True) -> Any:  # list[dict[str, Any]]:
     """функция сортирует словари по дате: на убывание - по умолчанию или на возрастание,
     по установленному значению в аргументе - sorting"""
 
