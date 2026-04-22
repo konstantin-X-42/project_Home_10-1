@@ -1,6 +1,7 @@
 import pytest
 
-from src.widget import mask_account_card, get_date
+from src.widget import get_date, mask_account_card
+
 
 # параметризация теста все пишется в модуле test_... (conftest.py только для фикстур)
 @pytest.mark.parametrize(
@@ -20,9 +21,9 @@ def test_correct_get_mask_card_number(input_string, expected_result):
     assert mask_account_card(input_string) == expected_result
 
 
-
 def test_correct_get_date(date_str):
     assert get_date("2024-03-11T02:26:18.671407") == date_str
+
 
 def test_not_correct_get_date(date_str):
     assert get_date("2024-g3-11T02:26:18.671407") != date_str
