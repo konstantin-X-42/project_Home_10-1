@@ -6,10 +6,12 @@
 
 ## Установка зависимостей:
 1. Клонируйте репозиторий:
-    ```git clone https://github.com/konstantin-X-42/project_Home_10-1
+    ```git
+    clone https://github.com/konstantin-X-42/project_Home_10-1
     ```
 2. Установите зависимости, идентичные файлу poetry.lock если лока нет на основе pyproject.toml
-    ```poetry install
+    ```
+    poetry install
     ```
 ### зависимости для тестирования, проверки стиля кода или отладки:
 
