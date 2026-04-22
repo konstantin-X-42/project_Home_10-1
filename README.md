@@ -6,12 +6,10 @@
 
 ## Установка зависимостей:
 1. Клонируйте репозиторий:
-    ```
-    git clone https://github.com/konstantin-X-42/project_Home_10-1
+    ```git clone https://github.com/konstantin-X-42/project_Home_10-1
     ```
 2. Установите зависимости, идентичные файлу poetry.lock если лока нет на основе pyproject.toml
-    ```
-    poetry install
+    ```poetry install
     ```
 ### зависимости для тестирования, проверки стиля кода или отладки:
 
@@ -219,7 +217,6 @@ poetry run pytest
 ```bash
 poetry run pytest --cov=src
 ```
-*(Замените `src` на название вашей папки с кодом, если оно другое)*
 
 ### Список проверяемых сценариев:
 Функция валидации даты проходит тесты на следующие исключения:
