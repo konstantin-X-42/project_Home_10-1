@@ -19,7 +19,9 @@ dev = [
     "black (>=26.3.1,<27.0.0)",
     "isort (>=8.0.1,<9.0.0)",
     "mypy (>=1.20.1,<2.0.0)",
-    "flake8 (>=7.3.0,<8.0.0)"
+    "flake8 (>=7.3.0,<8.0.0)",
+    "pytest (>=9.0.3,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)"
 ]
 
 [tool.black]
@@ -37,8 +39,17 @@ strict = true
 disallow_untyped_defs = true
 warn_return_any = true
 exclude = ['venv']
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]        # отменяет строгую проверку в директории tests
+module = "tests.*"
+disallow_untyped_defs = false
 
 [tool.flake8]
 max-line-length = 119
 extend-ignore = "E203"
 exclude = [".git", "__pycache__", "dist"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
