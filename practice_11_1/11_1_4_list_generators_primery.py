@@ -16,6 +16,7 @@ result = [x * 10     for       x      in  [1, 2, 3, 4]   if   x % 2 == 0]
 print(result)
  >>> [20, 40]
 
+
 Примеры использования генераторов списков
 Пример 1. Квадраты чисел
 """
@@ -39,7 +40,7 @@ for x in [1, 2, 3] — цикл, который проходит по значе
 """
 ascii_codes = [ord(c) for c in "Hello!!" if c.isalpha() and c.islower()]
 # >>> [101, 108, 108, 111]
-if __name__ == "__main__":
+if __name__ == "__main__":  # запустить Shift + Ctrl + Fn + F10
     print(ascii_codes)
 
 
