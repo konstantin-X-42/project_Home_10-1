@@ -38,7 +38,7 @@ if __name__ == "__main__":
     usd_transactions = filter_by_currency(transactions, "USD")
 
     # Выводим результаты по очереди
-    for _ in range(2xit):
+    for _ in range(2):
         try:
             print(next(usd_transactions))
         except StopIteration:
