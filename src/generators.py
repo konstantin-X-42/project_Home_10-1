@@ -3,7 +3,7 @@ from typing import Any, Iterator
 
 def filter_by_currency(transactions: list[dict[str, Any]], currency: str) -> Iterator[dict[str, Any]]:
     """
-    Генератор, который фильтрует транзакции по заданной валюте.
+    Генератор, фильтрует транзакции по заданной валюте
     """
     for transaction in transactions:
         # Безопасно достаем код валюты через .get(), чтобы избежать ошибок, если ключа нет
