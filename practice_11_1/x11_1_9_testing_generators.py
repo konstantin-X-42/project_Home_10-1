@@ -6,7 +6,7 @@ def infinite_sequence(start: int = 1):  # type: ignore
         start += 1
 
 
-# пишем тест функции
+# пишем тест функции в папку tests
 
 # def test_infinite_sequence():
 #     generator = infinite_sequence()
