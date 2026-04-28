@@ -1,5 +1,6 @@
 from practice_11_1.x11_1_9_testing_generators import infinite_sequence
 
+
 def test_infinite_sequence():
     generator = infinite_sequence()
     assert next(generator) == 1
