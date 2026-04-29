@@ -71,8 +71,39 @@ if __name__ == "__main__":
         except StopIteration:
             print("Транзакции в этой валюте закончились.")
 
-# --------------------------------------------------------------------
 
+# --------------------------------------------------------------------
+def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]:
+    """
+    Принимает список словарей и возвращает описание (description) каждой транзакции.
+    """
+    for transaction in transactions:
+        # Достаем описание, если ключа нет — вернется пустая строка или текст об ошибке
+        yield transaction.get("description", "Описание отсутствует")
+
+
+# Твои данные + один "сломанный" элемент для проверки надежности
+transactions_data = [
+    {"id": 939719570, "description": "Перевод организации"},
+    {"id": 142264268, "description": "Перевод со счета на счет"},
+    {"id": 873106923, "description": "Перевод со счета на счет"},
+    {"id": 895315941, "description": "Перевод с карты на карту"},
+    {"id": 594226727, "description": "Перевод организации"},
+    {"id": 000000000},
+]
+
+descriptions = transaction_descriptions(transactions_data)
+
+# Проверяем
+print("--- Результаты теста ---")
+for desc in descriptions:
+    print(f"Описание: {desc}")
+
+# Проверка через assert (для автоматизации)
+result_list = list(transaction_descriptions(transactions_data))
+assert result_list[0] == "Перевод организации"
+assert result_list[-1] == "Описание отсутствует"  # Сработал default
+print("\nДанные обработаны корректно!")
 # --------------------------------------------------------------------
 
 
@@ -93,12 +124,3 @@ def card_number_generator(start: int, end: int) -> Iterator[str]:
 # запуск генератора:
 for card_number in card_number_generator(1, 5):
     print(card_number)
-
-# --------------------------------------------------------------------
-
-# def filter_by_currency(data: list[dict[str, Any]]) -> Iterator[dict[str, Any]]:
-#     pass
-#
-#
-# def transaction_descriptions(data: list[dict[str, Any]]) -> Iterator[str]:
-#     pass

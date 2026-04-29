@@ -1,4 +1,9 @@
+from typing import Any, Iterator  # Модуль typing — это встроенная библиотека, поставляется вместе с Python
+
 from src.generators import card_number_generator, filter_by_currency
+
+# Функция принимает 'Any' (что угодно)
+# возвращает 'Iterator' (объект для перебора)
 
 
 def test_filter_by_currency_usd(sample_transactions):
@@ -31,6 +36,20 @@ def test_filter_by_currency_missing_keys(sample_transactions):
 
 
 # --------------------------------------------------------------------
+
+
+def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]:
+    """
+    Принимает список словарей, возвращает описание (description) каждой транзакции
+    """
+    for transaction in transactions:
+        # Достаем описание, если ключа нет — вернется пустая строка или текст об ошибке
+        yield transaction.get("description", "Описание отсутствует")
+
+
+def repeat_item(item: Any, times: int) -> Iterator[Any]:
+    for _ in range(times):
+        yield item
 
 
 # --------------------------------------------------------------------
