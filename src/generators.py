@@ -73,6 +73,8 @@ if __name__ == "__main__":
 
 
 # --------------------------------------------------------------------
+
+
 def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]:
     """
     Принимает список словарей и возвращает описание (description) каждой транзакции.
@@ -104,6 +106,8 @@ result_list = list(transaction_descriptions(transactions_data))
 assert result_list[0] == "Перевод организации"
 assert result_list[-1] == "Описание отсутствует"  # Сработал default
 print("\nДанные обработаны корректно!")
+
+
 # --------------------------------------------------------------------
 
 
