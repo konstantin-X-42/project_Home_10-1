@@ -23,6 +23,7 @@ def test_not_correct_get_mask_card_number(number_card):
     assert get_mask_card_number() != number_card
 
 
+# --------------------------------------------------------------------
 def test_correct_get_mask_account(number_account):
     assert get_mask_account("73654108430135874305") == number_account
     assert get_mask_account(73654108430135874305) == number_account
