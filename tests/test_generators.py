@@ -1,13 +1,13 @@
-from typing import Any, Iterator  # Модуль typing — это встроенная библиотека, поставляется вместе с Python
+import pytest
 
-from src.generators import card_number_generator, filter_by_currency
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 # Функция принимает 'Any' (что угодно)
 # возвращает 'Iterator' (объект для перебора)
 
 
 def test_filter_by_currency_usd(sample_transactions):
-    """Проверка фильтрации по USD (должно найти 2 записи)"""
+    """Проверка фильтрации по USD"""
     result = list(filter_by_currency(sample_transactions, "USD"))
     assert len(result) == 3
     assert result[0]["id"] == 939719570
@@ -38,18 +38,26 @@ def test_filter_by_currency_missing_keys(sample_transactions):
 # --------------------------------------------------------------------
 
 
-def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]:
-    """
-    Принимает список словарей, возвращает описание (description) каждой транзакции
-    """
-    for transaction in transactions:
-        # Достаем описание, если ключа нет — вернется пустая строка или текст об ошибке
-        yield transaction.get("description", "Описание отсутствует")
-
-
-def repeat_item(item: Any, times: int) -> Iterator[Any]:
-    for _ in range(times):
-        yield item
+@pytest.mark.parametrize(
+    "transactions, expected_descriptions",
+    [
+        # Тест 1: Стандартный набор данных
+        (
+            [{"description": "Перевод организации"}, {"description": "Перевод со счета на счет"}],
+            ["Перевод организации", "Перевод со счета на счет"],
+        ),
+        # Тест 2: Пустой список
+        ([], []),
+        # Тест 3: Транзакция без описания, проверка значения по умолчанию
+        ([{"amount": 100}, {"description": "Оплата кофе"}], ["Описание отсутствует", "Оплата кофе"]),
+        # Тест 4: Одна транзакция
+        ([{"description": "Еда"}], ["Еда"]),
+    ],
+)
+def test_transaction_descriptions_parametrized(transactions, expected_descriptions):
+    """Тестируем генератор описаний с разным количеством входных данных."""
+    result = list(transaction_descriptions(transactions))
+    assert result == expected_descriptions
 
 
 # --------------------------------------------------------------------

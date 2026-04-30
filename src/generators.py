@@ -1,17 +1,5 @@
 from typing import Any, Iterator
 
-
-# функция-генератор
-def filter_by_currency(transactions: list[dict[str, Any]], currency: str) -> Iterator[dict[str, Any]]:
-    """
-    Генератор, фильтрует транзакции по заданной валюте, выгружает пакетами элементов списка в (dict)
-    """
-    for transaction in transactions:
-        # Безопасно достаем код валюты через .get(), чтобы избежать ошибок, если ключа нет
-        if transaction.get("operationAmount", {}).get("currency", {}).get("code") == currency:
-            yield transaction
-
-
 # Блок входных данных передаём в аргумент функции
 transactions_data = [
     {
@@ -61,13 +49,28 @@ transactions_data = [
     },
 ]
 
+# --------------------------------------------------------------------
+
+
+# функция-генератор
+def filter_by_currency(transactions: list[dict[str, Any]], currency: str) -> Iterator[dict[str, Any]]:
+    """
+    Генератор, фильтрует транзакции по заданной валюте, выгружает пакетами элементов списка в (dict)
+    """
+    for transaction in transactions:
+        # Безопасно достаем код валюты через .get(), чтобы избежать ошибок, если ключа нет
+        if transaction.get("operationAmount", {}).get("currency", {}).get("code") == currency:
+            yield transaction
+
+
 # Вызов функции в теле модуля (при условии, что функция не импортирована из другого модуля)
 if __name__ == "__main__":
-
+    print("--- ТЕСТ filter_by_currency() ---")
+    usd_transactions = filter_by_currency(transactions_data, "RUB")  # Создаем генератор ОДИН РАЗ
     # Выводим результаты по очереди
-    for _ in range(2):
+    for _ in range(3):
         try:
-            print(next(filter_by_currency(transactions_data, "RUB")))
+            print(next(usd_transactions))
         except StopIteration:
             print("Транзакции в этой валюте закончились.")
 
@@ -84,29 +87,12 @@ def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str
         yield transaction.get("description", "Описание отсутствует")
 
 
-# Твои данные + один "сломанный" элемент для проверки надежности
-transactions_data = [
-    {"id": 939719570, "description": "Перевод организации"},
-    {"id": 142264268, "description": "Перевод со счета на счет"},
-    {"id": 873106923, "description": "Перевод со счета на счет"},
-    {"id": 895315941, "description": "Перевод с карты на карту"},
-    {"id": 594226727, "description": "Перевод организации"},
-    {"id": 000000000},
-]
-
 descriptions = transaction_descriptions(transactions_data)
 
-# Проверяем
-print("--- Результаты теста ---")
-for desc in descriptions:
-    print(f"Описание: {desc}")
-
-# Проверка через assert (для автоматизации)
-result_list = list(transaction_descriptions(transactions_data))
-assert result_list[0] == "Перевод организации"
-assert result_list[-1] == "Описание отсутствует"  # Сработал default
-print("\nДанные обработаны корректно!")
-
+if __name__ == "__main__":
+    print("--- ТЕСТ transaction_descriptions() ---")
+    for desc in descriptions:
+        print(f"Описание: {desc}")
 
 # --------------------------------------------------------------------
 
@@ -125,6 +111,7 @@ def card_number_generator(start: int, end: int) -> Iterator[str]:
         yield formatted_card
 
 
-# запуск генератора:
-for card_number in card_number_generator(1, 5):
-    print(card_number)
+if __name__ == "__main__":
+    print("--- ТЕСТ card_number_generator() ---")
+    for card_number in card_number_generator(1, 5):
+        print(card_number)
