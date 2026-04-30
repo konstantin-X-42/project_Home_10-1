@@ -64,15 +64,15 @@ def filter_by_currency(transactions: list[dict[str, Any]], currency: str) -> Ite
 
 
 # Вызов функции в теле модуля (при условии, что функция не импортирована из другого модуля)
-if __name__ == "__main__":
-    print("--- ТЕСТ filter_by_currency() ---")
-    usd_transactions = filter_by_currency(transactions_data, "RUB")  # Создаем генератор ОДИН РАЗ
-    # Выводим результаты по очереди
-    for _ in range(3):
-        try:
-            print(next(usd_transactions))
-        except StopIteration:
-            print("Транзакции в этой валюте закончились.")
+# if __name__ == "__main__":
+#     print("--- ТЕСТ filter_by_currency() ---")
+#     usd_transactions = filter_by_currency(transactions_data, "RUB")  # Создаем генератор ОДИН РАЗ
+#     # Выводим результаты по очереди
+#     for _ in range(3):
+#         try:
+#             print(next(usd_transactions))
+#         except StopIteration:
+#             print("Транзакции в этой валюте закончились.")
 
 
 # --------------------------------------------------------------------
@@ -89,10 +89,10 @@ def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str
 
 descriptions = transaction_descriptions(transactions_data)
 
-if __name__ == "__main__":
-    print("--- ТЕСТ transaction_descriptions() ---")
-    for desc in descriptions:
-        print(f"Описание: {desc}")
+# if __name__ == "__main__":
+#     print("--- ТЕСТ transaction_descriptions() ---")
+#     for desc in descriptions:
+#         print(f"Описание: {desc}")
 
 
 # --------------------------------------------------------------------
@@ -112,7 +112,7 @@ def card_number_generator(start: int, end: int) -> Iterator[str]:
         yield formatted_card
 
 
-if __name__ == "__main__":
-    print("--- ТЕСТ card_number_generator() ---")
-    for card_number in card_number_generator(1, 5):
-        print(card_number)
+# if __name__ == "__main__":
+#     print("--- ТЕСТ card_number_generator() ---")
+#     for card_number in card_number_generator(1, 5):
+#         print(card_number)
