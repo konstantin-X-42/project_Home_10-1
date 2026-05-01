@@ -22,6 +22,8 @@ def test_correct_get_mask_card_number(input_string, expected_result):
 
 
 # --------------------------------------------------------------------
+
+
 def test_correct_get_date(date_str):
     assert get_date("2024-03-11T02:26:18.671407") == date_str
 

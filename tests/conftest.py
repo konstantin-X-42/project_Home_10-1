@@ -1,6 +1,9 @@
 import pytest
 
 
+# ---------------- masks.py ----------------------------------------------------
+
+
 @pytest.fixture
 def number_card():
     """маскировка номера карты"""
@@ -13,10 +16,16 @@ def number_account():
     return "** 4305"
 
 
+# ---------------- widget.py ---------------------------------------------------
+
+
 @pytest.fixture
 def date_str():
     """возвращает дату в формате 'ДД.ММ.ГГГГ'"""
     return "11.03.2024"
+
+
+# ---------------- processing.py -----------------------------------------------
 
 
 @pytest.fixture
@@ -61,6 +70,9 @@ def date_list_false():
     ]
 
 
+# ---------------- generators.py -----------------------------------------------
+
+
 @pytest.fixture
 def sample_transactions():
     """Генератор, фильтрует транзакции по заданной валюте, выгружает пакетами элементов списка в (dict)"""
@@ -102,8 +114,6 @@ def sample_transactions():
             "to": "Visa Platinum 8990922113665229",
         },
     ]
-    #     {"id": 1, "operationAmount": {"currency": {"code": "USD"}}, "description": "USD Trans"},
-    #     {"id": 2, "operationAmount": {"currency": {"code": "RUB"}}, "description": "RUB Trans"},
-    #     {"id": 3, "operationAmount": {"currency": {"code": "USD"}}, "description": "Another USD Trans"},
-    #     {"id": 4, "description": "No amount info"},  # Тест на пропущенные ключи
-    # ]
+
+
+# ---------------- .py ---------------------------------------------------------
