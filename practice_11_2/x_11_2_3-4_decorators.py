@@ -1,3 +1,4 @@
+from functools import wraps
 from time import time
 
 
@@ -98,12 +99,17 @@ if __name__ == "__main__":
 
 
 def printing(func):  # type: ignore
-    """функция декоратор выводит начала работы, завершила работу"""
+    """функция декоратор выводит начала работы, завершение работы"""
 
+    @wraps(func)  # пробрасывает имя и описание (docstring) оригинальной функции через все обёртки
+    # в консоль отобразится название функции не "wrapper" теперь виден "example"
     def wrapper(*args, **kwargs):  # type: ignore
-        print(f"Функция {func} старт")
+        """внутренняя функция, которая служит оберткой для исходной 'func'"""
+        print(
+            f"Функция {func.__name__} старт"
+        )  # подменил {func} на {func.__name__} для удобного отображения в консоль
         result = func(*args, **kwargs)
-        print(f"Функция {func} стоп")
+        print(f"Функция {func.__name__} стоп")  # подменил {func} на {func.__name__} для удобного отображения в консоль
         return result
 
     return wrapper
@@ -112,7 +118,10 @@ def printing(func):  # type: ignore
 def timer(func):  # type: ignore
     """функция декоратор выводит время работы функции"""
 
+    @wraps(func)  # пробрасывает имя и описание (docstring) оригинальной функции через все обёртки
+    # в консоль отобразится название функции не "wrapper" теперь виден "example"
     def wrapper(*args, **kwargs):  # type: ignore
+        """внутренняя функция, которая служит оберткой для исходной 'func'"""
         print("Начало работы функции")
         time_1 = time()
         result = func(*args, **kwargs)
@@ -126,7 +135,7 @@ def timer(func):  # type: ignore
 print("\n-- printing(func) и timer(func) --")
 
 
-@printing  # 2- оборачиваем функцию - отрабатывает сверху вниз 1-й
+@printing  # 2- оборачиваем функцию - отрабатывает код сверху вниз 1-й
 @timer  # 1- оборачиваем функцию снизу вверх - отрабатывает 2-й
 def example_2():  # type: ignore
     for i in range(100000000):
@@ -152,3 +161,45 @@ def example_3():  # type: ignore
 
 if __name__ == "__main__":
     example_3()
+
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+"""
+Задача 1
+Напишите декоратор, который проверяет, что все числа, возвращаемые декорируемой функцией, являются целыми,
+и округляет их до целых, если это не так.
+"""
+
+
+def check_integers(func):  # type: ignore
+    def wrapper(*args, **kwargs):  # type: ignore
+        result = func(*args, **kwargs)
+        # Проверка на тип с использованием type()
+        if isinstance(result, float):  # это тоже самое  if type(result) == float:
+            return round(result)
+        elif type(result) in (list, tuple):
+            # if type(x) == float   тоже что и   if isinstance(x, float)
+            rounded = [round(x) if isinstance(x, float) else x for x in result]
+            # Возвращаем тот же тип, что и исходный (list или tuple)
+            return type(result)(rounded)
+        else:
+            return result
+
+    return wrapper
+
+
+print("\n-- check_integers(func) --")
+
+
+@check_integers
+def check():  # type: ignore
+    return 1225.4  # число float возвращается декоратору
+
+
+if __name__ == "__main__":
+    res = check()
+    print(res)  # Здесь вернётся целое число 1225
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
