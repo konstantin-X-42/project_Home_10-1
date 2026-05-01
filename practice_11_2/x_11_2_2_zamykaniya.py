@@ -12,18 +12,18 @@
 
 
 # вариант 1 (устарелый)
-def create_counter_1(): # type: None
+def create_counter_1():  # type: ignore
     """функция счётчик бесконечности, увеличивает при каждом вызове"""
     count = [0]  # список - нужен изменяемый тип данных для дальнейшей мутации
 
-    def counter():
+    def counter():  # type: ignore
         count[0] += 1  # обращаемся по индексу списка к элементу и увеличиваем элемент на 1
         return count[0]
 
     return counter
 
 
-my_counter = create_counter_1()  # вызываем и передаем аргументы в внешнюю функцию
+my_counter = create_counter_1()  # type: ignore # вызываем и передаем аргументы в внешнюю функцию
 print("-- create_counter_1() --")  # разделитель для отображения в консоли
 
 print(my_counter())  # >>> 1         вызываем и передаем аргументы в вложенную функцию
@@ -35,10 +35,10 @@ print(my_counter())  # >>> 4
 
 
 # вариант 2 (актуальный)
-def create_counter_2():
+def create_counter_2():  # type: ignore
     count = 0
 
-    def counter():
+    def counter():  # type: ignore
         nonlocal count  # nonlocal - перенос переменной из внеш.ф. в текущую функцию
         count += 1
         return count
@@ -48,7 +48,7 @@ def create_counter_2():
 
 print("\n-- create_counter_2() --")
 
-my_counter = create_counter_2()
+my_counter = create_counter_2()  # type: ignore
 
 results = [my_counter() for _ in range(5)]  # запускаем 5 вызовов
 print(results)
