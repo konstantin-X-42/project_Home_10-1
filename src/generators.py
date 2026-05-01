@@ -1,6 +1,6 @@
 from typing import Any, Iterator
 
-# Блок входных данных передаём в аргумент функции
+# блок входных данных передаём в аргумент функции
 transactions_data = [
     {
         "id": 939719570,
@@ -58,15 +58,15 @@ def filter_by_currency(transactions: list[dict[str, Any]], currency: str) -> Ite
     Генератор, фильтрует транзакции по заданной валюте, выгружает пакетами элементов списка в (dict)
     """
     for transaction in transactions:
-        # Безопасно достаем код валюты через .get(), чтобы избежать ошибок, если ключа нет
+        # достаем код валюты через .get(), чтобы избежать ошибок, если ключа нет
         if transaction.get("operationAmount", {}).get("currency", {}).get("code") == currency:
             yield transaction
 
 
-# Вызов функции в теле модуля (при условии, что функция не импортирована из другого модуля)
+# вызов функции в теле модуля (при условии, что функция не импортирована из другого модуля)
 # if __name__ == "__main__":
 #     print("--- ТЕСТ filter_by_currency() ---")
-#     usd_transactions = filter_by_currency(transactions_data, "RUB")  # Создаем генератор ОДИН РАЗ
+#     usd_transactions = filter_by_currency(transactions_data, "RUB")  # создаем генератор ОДИН РАЗ
 #     # Выводим результаты по очереди
 #     for _ in range(3):
 #         try:
@@ -83,7 +83,7 @@ def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str
     Принимает список словарей и возвращает описание (description) каждой транзакции.
     """
     for transaction in transactions:
-        # Достаем описание, если ключа нет — вернется пустая строка или текст об ошибке
+        # если ключа нет, возвращает вместо пустой строки "Описание отсутствует"
         yield transaction.get("description", "Описание отсутствует")
 
 
@@ -106,7 +106,7 @@ def card_number_generator(start: int, end: int) -> Iterator[str]:
         card_str = f"{number:016}"  # делает строку длиной 16 символов,
         # если в аргументе число короче — допишет в начало нули (:016)
 
-        # Разбивает строку на блоки по 4 цифры и соединяет их пробелами
+        # разбивает строку на блоки по 4 цифры и соединяет их пробелами
         formatted_card = f"{card_str[:4]} {card_str[4:8]} {card_str[8:12]} {card_str[12:]}"
 
         yield formatted_card
