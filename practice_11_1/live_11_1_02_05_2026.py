@@ -1,3 +1,5 @@
+import pytest
+
 # цикл работает только по итерируемым объектам: (str) (list) (dict) (tuple)
 if __name__ == "__main__":
 
@@ -52,6 +54,7 @@ if __name__ == "__main__":
             print("Итерация завершена")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 if __name__ == "__main__":
     """ГЕНЕРАТОР"""
     # если имеется yeld - это генератор
@@ -73,17 +76,16 @@ if __name__ == "__main__":
 
     # -------------------------------
 
-    print("\n-- ГЕНЕРАТОР обрабатывает по условию --")
-    """генератор перебирает элементы и обрабатывает по условию"""
+    print("\n-- ГЕНЕРАТОР перебирает элементы и обрабатывает по условию, исключена ошибка --")
 
-    def gen_example(lst: list):
-        for item in lst:
-            item = item / 100
-            if item < 0.5:
+    def gen_example(lst_r: list):
+        for item_ in lst_r:
+            item_ = item_ / 100
+            if item_ < 0.5:
                 print("Было мало продаж")
-            yield item
+            yield item_
 
-    lst = [59, 120, 75, 1]
+    lst = [59, 120, 75, 1]  # задаём параметры
     gen_iter = gen_example(lst)  # запускаем генератор
     print(gen_iter)  # объект генератор - тот же итератор
     print(next(gen_iter))
@@ -95,4 +97,121 @@ if __name__ == "__main__":
         print(next(gen_iter))  # >>> ошибка StopIteration - элементы в итераторе закончились
     except StopIteration as e:
         print("Итерация завершена элементы закончились")
-# 45:03 по видео
+
+    # -------------------------------
+
+    print("\n-- ГЕНЕРАТОР поочерёдно выводит lst_1 и lst_2 обработка ошибки --")
+
+    def gen_chain(list_r1: list, list_r2: list):  # функция MapReduce
+        for i in range(len(list_1)):
+            yield list_r1[i]  # 1 # 3 состояние
+            print("код на исполнение на чётном вызове 2, 4, 6 и тд")  # 2 # 4 исполнение
+            yield list_r2[i]  # 2 # 4 состояние
+
+    list_1 = [59, 120, 75, 1]  # задаём параметры
+    list_2 = ["l", "i", "s", "t"]  # задаём параметры
+
+    gen_iter = gen_chain(list_1, list_2)
+    print(next(gen_iter))  #  <<< 59  с списка list_1
+    print(next(gen_iter))  #  <<< l   с списка list_2
+    print(next(gen_iter))  #  <<< 120 с списка list_1
+    print(next(gen_iter))  #  <<< i   с списка list_2
+
+    flag = True  # запускаем цикл
+    while flag:
+        try:
+            print(next(gen_iter))
+        except StopIteration:
+            flag = False  # обнаружена ошибка выключаем цикл
+            print("Итерация завершена")
+
+    # -------------------------------
+
+    print("\n-- ГЕНЕРАТОР одновременно выводит lst_1 и lst_2 в картеж, затем 123 --")
+
+    def gen_chain(lst_s1: list, lst_s2: list):
+        for i in range(len(lst_s1)):
+            yield lst_s1[i], lst_s2[i]  # 1, 3
+            print("Окно между yield")
+            yield 123  # 2, 4
+
+    lst_1 = [59, 120, 75, 1]
+    lst_2 = ["l", "i", "s", "t"]
+
+    gen_iter = gen_chain(lst_1, lst_2)
+    print(next(gen_iter))
+    print(next(gen_iter))
+    print(next(gen_iter))
+    print(next(gen_iter))
+
+    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    print("\n-- ГЕНЕРАТОР ТЕСТЫ asert --")
+
+    def gen_chain(lst_s1: list, lst_s2: list):
+        for i in range(len(lst_s1)):
+            yield lst_s1[i]  # 1, 3
+            # print("Окно между yield")
+            yield lst_s2[i]  # 2, 4
+
+    list_1 = [59, 120, 75, 1]  # задаём параметры
+    list_2 = ["l", "i", "s", "t"]  # задаём параметры
+    gen_iter = gen_chain(list_1, list_2)
+    print(list(gen_iter))  # <<< выдаёт все элементы генератора
+
+    gen_iter = gen_chain(lst_1, lst_2)  # если в тесте необходимо проверить
+    # еще элементы вызываем генератор повторно
+    print(list(gen_iter))
+
+    # print(next(gen_iter))
+    # print(next(gen_iter))
+    # print(next(gen_iter))
+
+    def test_gen_chain():
+        lst_t1 = [59, 120]
+        lst_t2 = ["l", "i"]
+        gen_iter_1 = gen_chain(lst_t1, lst_t2)
+
+        result_lst = [59, "l", 120, "i"]
+        assert list(gen_iter_1) == result_lst
+
+        gen_iter_2 = gen_chain(lst_t1, lst_t2)
+        assert next(gen_iter_2) == result_lst[0]
+        assert next(gen_iter_2) == result_lst[1]
+        assert next(gen_iter_2) == result_lst[2]
+        assert next(gen_iter_2) == result_lst[3]
+
+    test_gen_chain()
+
+    print("\n-- ГЕНЕРАТОР ТЕСТЫ parametrize --")
+
+    def gen_chain(lst_s1: list, lst_s2: list):
+        for i in range(len(lst_s1)):
+            yield lst_s1[i]  # 1, 3
+            # print("Окно между yield")
+            yield lst_s2[i]  # 2, 4
+
+    list_1 = [59, 120, 75, 1]  # задаём параметры
+    list_2 = ["l", "i", "s", "t"]  # задаём параметры
+    gen_iter = gen_chain(list_1, list_2)
+    print(list(gen_iter))  # <<< выдаёт все элементы генератора
+
+    gen_iter = gen_chain(lst_1, lst_2)  # если в тесте необходимо проверить
+    # еще элементы вызываем генератор повторно
+    print(list(gen_iter))
+
+    @pytest.mark.parametrize(
+        "lst_1, lst_2, result_lst",
+        [
+            ([59, 120], ["l", "i"], [59, "l", 120, "i"]),
+            ([590, 1200], ["ll", "ii"], [590, "ll", 1200, "ii"]),
+        ],
+    )
+    def test_gen_chain(lst_1, lst_2, result_lst):
+        gen_iter_ = gen_chain(lst_1, lst_2)
+        assert list(gen_iter_) == result_lst
+
+        gen_iter = gen_chain(lst_1, lst_2)
+
+    test_gen_chain()
+#  1:11
