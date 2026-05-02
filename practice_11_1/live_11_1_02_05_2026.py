@@ -95,3 +95,4 @@ if __name__ == "__main__":
         print(next(gen_iter))  # >>> ошибка StopIteration - элементы в итераторе закончились
     except StopIteration as e:
         print("Итерация завершена элементы закончились")
+# 45:03 по видео
