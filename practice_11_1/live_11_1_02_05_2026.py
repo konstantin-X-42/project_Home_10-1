@@ -204,8 +204,61 @@ def test_gen_chain(lst_x1, lst_x2, result_lst):
     gen_iter_ = gen_chain(lst_x1, lst_x2)
     assert list(gen_iter_) == result_lst
 
-"""блок ниже даёт возможность запустить через shift + fn + F10"""
+"""блок ниже даёт возможность запустить через shift + fn + F10 в консоль"""
 if __name__ == "__main__":
     import pytest
     pytest.main([__file__])
-#  1:11
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+print("\n-- ИТЕРАТОР ТЕСТЫ asert --")
+
+def gen_iter():
+    user_input = 'list'  # input("какая то строка") укажем пользователь ввел list
+    iter_object_ = iter(user_input)
+    return next(iter_object_)
+
+
+def test_gen_chain_iterator():
+    lis_data = ['l', 'i', 's', 't']
+    iter_object_ = iter(lis_data)
+
+    assert list(iter_object_) == lis_data
+
+    iter_object_ = iter(lis_data)
+    assert next(iter_object_) == lis_data[0]
+    assert next(iter_object_) == lis_data[1]
+    assert next(iter_object_) == lis_data[2]
+    assert next(iter_object_) == lis_data[3]
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+print("\n-- ИТЕРАТОР ТЕСТЫ asert и тест ошибки StopIteration --")
+
+gen_iter = gen_chain(lst_1, lst_2)
+print(list(gen_iter))
+
+# print(next(gen_iter))
+# print(next(gen_iter))
+# print(next(gen_iter))
+
+
+def test_gen_chain():
+    lst_1 = [59, 120]
+    lst_2 = ['l', 'i']
+    gen_iter = gen_chain(lst_1, lst_2)
+
+    result_lst = [59, 'l', 120, 'i']
+    assert list(gen_iter) == result_lst
+
+    gen_iter = gen_chain(lst_1, lst_2)
+    assert next(gen_iter) == result_lst[0]
+    assert next(gen_iter) == result_lst[1]
+    assert next(gen_iter) == result_lst[2]
+    assert next(gen_iter) == result_lst[3]
+    with pytest.raises(StopIteration):
+        assert next(gen_iter) == result_lst[3]
+
+test_gen_chain()
+
+# 1:12
