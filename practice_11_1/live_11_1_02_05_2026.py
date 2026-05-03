@@ -194,15 +194,15 @@ def gen_chain(lst_s1: list, lst_s2: list):
         yield lst_s2[i]  # 2, 4
 
 @pytest.mark.parametrize(
-    "lst_x1, lst_x2, result_lst",
+    "lst_x1, lst_x2, result_lst_x",
     [
         ([59, 120], ["l", "i"], [59, "l", 120, "i"]),
         ([590, 1200], ["ll", "ii"], [590, "ll", 1200, "ii"]),
     ],
 )
-def test_gen_chain(lst_x1, lst_x2, result_lst):
+def test_gen_chain(lst_x1, lst_x2, result_lst_x):
     gen_iter_ = gen_chain(lst_x1, lst_x2)
-    assert list(gen_iter_) == result_lst
+    assert list(gen_iter_) == result_lst_x
 
 """блок ниже даёт возможность запустить через shift + fn + F10 в консоль"""
 if __name__ == "__main__":
@@ -235,30 +235,76 @@ def test_gen_chain_iterator():
 
 print("\n-- ИТЕРАТОР ТЕСТЫ asert и тест ошибки StopIteration --")
 
-gen_iter = gen_chain(lst_1, lst_2)
-print(list(gen_iter))
+list_x1 = [59, 120, 75, 1]  # задаём параметры
+list_x2 = ["l", "i", "s", "t"]  # задаём параметры
 
-# print(next(gen_iter))
-# print(next(gen_iter))
-# print(next(gen_iter))
-
+gen_iter_2 = gen_chain(list_x1, list_x2)
+print(list(gen_iter_2))    # функция list вырабатывает все элементы в итераторе
 
 def test_gen_chain():
-    lst_1 = [59, 120]
-    lst_2 = ['l', 'i']
-    gen_iter = gen_chain(lst_1, lst_2)
+    lst_x1 = [62, 530]   # объявляем элементы для теста в списке 1 (элементы могут быть иные)
+    lst_x2 = ['g', 'i']  # объявляем элементы для теста в списке 2 (элементы могут быть иные)
+    gen_iter_x = gen_chain(lst_x1, lst_x2)  # запускаем итератор
 
-    result_lst = [59, 'l', 120, 'i']
-    assert list(gen_iter) == result_lst
+    result_lst = [62, 'g', 530, 'i']       # объявляем результат итератора для теста
+    assert list(gen_iter_x) == result_lst  # запускаем тест на весь список объединяющий два списка, опустошаем итератор
 
-    gen_iter = gen_chain(lst_1, lst_2)
-    assert next(gen_iter) == result_lst[0]
-    assert next(gen_iter) == result_lst[1]
-    assert next(gen_iter) == result_lst[2]
-    assert next(gen_iter) == result_lst[3]
+    gen_iter_x = gen_chain(lst_x1, lst_x2)   # запускаем итератор вновь, предыдущий исчерпан
+    assert next(gen_iter_x) == result_lst[0] # элементы с 0-м индексом в двух списках сравниваем с результатом
+    assert next(gen_iter_x) == result_lst[1]
+    assert next(gen_iter_x) == result_lst[2]
+    assert next(gen_iter_x) == result_lst[3]
     with pytest.raises(StopIteration):
-        assert next(gen_iter) == result_lst[3]
+        assert next(gen_iter_x) == result_lst[3]
 
 test_gen_chain()
 
-# 1:12
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+print("\n-- ИТЕРАТОР ТЕСТЫ asert и тест ошибки AssertionError --")
+
+lst_1 = [59, 120]
+lst_2 = ['l', 'i']
+gen_iter_v = gen_chain(lst_1, lst_2)
+
+result_lst = [59, 'l', 120, 'i']
+assert list(gen_iter_v) == result_lst
+
+gen_iter_v = gen_chain(lst_1, lst_2)
+with pytest.raises(AssertionError):  # AssertionError - утверждение в коде не совпадает с реальностью
+    assert next(gen_iter_v) == result_lst[1] # 59 == l -проверяем ошибку AssertionError
+
+test_gen_chain()
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+"""разделение на группы значимости по обработке ошибок"""
+def print_info():
+    try:
+        print('Поведение')
+    except KeyError:  # отлавливаем определённую ошибку внутри функции
+        pass   # обработка ошибки не требующей внимания
+
+try:
+    print_info()
+except Exception:  # отлавливаем внешнюю ошибку или определенные ошибки функции
+    pass   # обработка критичной ошибки требующая оперативности разработчика
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+print("\n-- однострочный генератор списка с условием else --")
+
+lst = [1,2,3,4,5]
+list_data = [x if x % 2 == 0 and x > 3 else 0 for x in lst]
+print(list_data)
+
+# аналогия в одну строчку
+print("\n-- аналогия в одну строку --")
+new_lst = []
+for x in lst:
+    if x % 2 == 0:
+        new_lst.append(lst)
+    else:
+        '0'
+print(list_data)
+# 1:42
