@@ -144,7 +144,7 @@ if __name__ == "__main__":
     print(next(gen_iter))
     print(next(gen_iter))
 
-    # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
     print("\n-- ГЕНЕРАТОР ТЕСТЫ asert --")
 
@@ -183,35 +183,29 @@ if __name__ == "__main__":
 
     test_gen_chain()
 
-    print("\n-- ГЕНЕРАТОР ТЕСТЫ parametrize --")
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    def gen_chain(lst_s1: list, lst_s2: list):
-        for i in range(len(lst_s1)):
-            yield lst_s1[i]  # 1, 3
-            # print("Окно между yield")
-            yield lst_s2[i]  # 2, 4
+print("\n-- ГЕНЕРАТОР ТЕСТЫ parametrize --")
 
-    list_1 = [59, 120, 75, 1]  # задаём параметры
-    list_2 = ["l", "i", "s", "t"]  # задаём параметры
-    gen_iter = gen_chain(list_1, list_2)
-    print(list(gen_iter))  # <<< выдаёт все элементы генератора
+def gen_chain(lst_s1: list, lst_s2: list):
+    for i in range(len(lst_s1)):
+        yield lst_s1[i]  # 1, 3
+        # print("Окно между yield")
+        yield lst_s2[i]  # 2, 4
 
-    gen_iter = gen_chain(lst_1, lst_2)  # если в тесте необходимо проверить
-    # еще элементы вызываем генератор повторно
-    print(list(gen_iter))
+@pytest.mark.parametrize(
+    "lst_x1, lst_x2, result_lst",
+    [
+        ([59, 120], ["l", "i"], [59, "l", 120, "i"]),
+        ([590, 1200], ["ll", "ii"], [590, "ll", 1200, "ii"]),
+    ],
+)
+def test_gen_chain(lst_x1, lst_x2, result_lst):
+    gen_iter_ = gen_chain(lst_x1, lst_x2)
+    assert list(gen_iter_) == result_lst
 
-    @pytest.mark.parametrize(
-        "lst_1, lst_2, result_lst",
-        [
-            ([59, 120], ["l", "i"], [59, "l", 120, "i"]),
-            ([590, 1200], ["ll", "ii"], [590, "ll", 1200, "ii"]),
-        ],
-    )
-    def test_gen_chain(lst_1, lst_2, result_lst):
-        gen_iter_ = gen_chain(lst_1, lst_2)
-        assert list(gen_iter_) == result_lst
-
-        gen_iter = gen_chain(lst_1, lst_2)
-
-    test_gen_chain()
+"""блок ниже даёт возможность запустить через shift + fn + F10"""
+if __name__ == "__main__":
+    import pytest
+    pytest.main([__file__])
 #  1:11
