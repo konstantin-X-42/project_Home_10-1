@@ -87,14 +87,14 @@ if __name__ == "__main__":
     lst = [59, 120, 75, 1]  # задаём параметры
     gen_iter = gen_example(lst)  # запускаем генератор
     print(gen_iter)  # объект генератор - тот же итератор
-    print(next(gen_iter))
-    # ловим ошибку StopIteration по завершению итерации
+    
     try:
-        print(next(gen_iter))  # >>> s
-        print(next(gen_iter))  # >>> t
+        print(next(gen_iter))  # >>> 0.59
+        print(next(gen_iter))  # >>> 1.2
+        print(next(gen_iter))  # >>> 0.75
+        print(next(gen_iter))  # >>> исключение ошибки StopIteration - Итерация завершена
         print(next(gen_iter))  # >>> ошибка StopIteration - элементы в итераторе закончились
-        print(next(gen_iter))  # >>> ошибка StopIteration - элементы в итераторе закончились
-    except StopIteration:
+    except StopIteration:  # ловим ошибку StopIteration - завершение итерации
         print("Итерация завершена элементы закончились")
 
     # -------------------------------
