@@ -251,14 +251,14 @@ def test_gen_chain():  # type: ignore
     lst_x2 = ["g", "i"]  # объявляем элементы для теста в списке 2 (элементы могут быть иные)
     gen_iter_x = gen_chain(lst_x1, lst_x2)  # запускаем итератор
 
-    result_lst = [62, "g", 530, "i"]  # объявляем результат итератора для теста
-    assert list(gen_iter_x) == result_lst  # запускаем тест на весь список объединяющий два списка, опустошаем итератор
+    result_gen = [62, "g", 530, "i"]  # объявляем результат итератора для теста
+    assert list(gen_iter_x) == result_gen  # запускаем тест на весь список объединяющий два списка, опустошаем итератор
 
     gen_iter_x = gen_chain(lst_x1, lst_x2)  # запускаем итератор вновь, предыдущий исчерпан
-    assert next(gen_iter_x) == result_lst[0]  # элементы с 0-м индексом в двух списках сравниваем с результатом
-    assert next(gen_iter_x) == result_lst[1]
-    assert next(gen_iter_x) == result_lst[2]
-    assert next(gen_iter_x) == result_lst[3]
+    assert next(gen_iter_x) == result_gen[0]  # элементы с 0-м индексом в двух списках сравниваем с результатом
+    assert next(gen_iter_x) == result_gen[1]
+    assert next(gen_iter_x) == result_gen[2]
+    assert next(gen_iter_x) == result_gen[3]
     with pytest.raises(StopIteration):
         assert next(gen_iter_x) == result_lst[3]
 
