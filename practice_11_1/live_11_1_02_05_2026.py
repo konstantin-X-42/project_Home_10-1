@@ -170,14 +170,14 @@ if __name__ == "__main__":
         lst_t2 = ["l", "i"]
         gen_iter_1 = gen_chain(lst_t1, lst_t2)  # <<< вызываем генератор
 
-        result_lst = [59, "l", 120, "i"]
-        assert list(gen_iter_1) == result_lst
+        result_lst_g = [59, "l", 120, "i"]
+        assert list(gen_iter_1) == result_lst_g
 
-        gen_iter_2 = gen_chain(lst_t1, lst_t2)  # <<< вызываем генератор
-        assert next(gen_iter_2) == result_lst[0]
-        assert next(gen_iter_2) == result_lst[1]
-        assert next(gen_iter_2) == result_lst[2]
-        assert next(gen_iter_2) == result_lst[3]
+        gen_iter_2g = gen_chain(lst_t1, lst_t2)  # <<< вызываем генератор
+        assert next(gen_iter_2g) == result_lst_g[0]
+        assert next(gen_iter_2g) == result_lst_g[1]
+        assert next(gen_iter_2g) == result_lst_g[2]
+        assert next(gen_iter_2g) == result_lst_g[3]
 
     test_gen_chain()  # type: ignore
 
