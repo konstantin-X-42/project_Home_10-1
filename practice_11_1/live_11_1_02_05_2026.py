@@ -87,7 +87,7 @@ if __name__ == "__main__":
     lst = [59, 120, 75, 1]  # задаём параметры
     gen_iter = gen_example(lst)  # запускаем генератор
     print(gen_iter)  # объект генератор - тот же итератор
-    
+
     try:
         print(next(gen_iter))  # >>> 0.59
         print(next(gen_iter))  # >>> 1.2
@@ -155,25 +155,25 @@ if __name__ == "__main__":
 
     list_1 = [59, 120, 75, 1]  # задаём параметры
     list_2 = ["l", "i", "s", "t"]  # задаём параметры
-    
+
     gen_iter = gen_chain(list_1, list_2)
     print(list(gen_iter))  # <<< выдаёт все элементы генератора
 
-    gen_iter = gen_chain(lst_1, lst_2) #  генератор апустошён, если для
+    gen_iter = gen_chain(lst_1, lst_2)  # генератор опустошён, если для
     # теста необходимо проверить элементы, вызываем генератор повторно
-    print(next(gen_iter)) # <<< 59
-    print(next(gen_iter)) # <<< l
-    print(next(gen_iter)) # <<< 120
+    print(next(gen_iter))  # <<< 59
+    print(next(gen_iter))  # <<< l
+    print(next(gen_iter))  # <<< 120
 
     def test_gen_chain():  # type: ignore
         lst_t1 = [59, 120]
         lst_t2 = ["l", "i"]
-        gen_iter_1 = gen_chain(lst_t1, lst_t2) # <<< вызываем генератор
+        gen_iter_1 = gen_chain(lst_t1, lst_t2)  # <<< вызываем генератор
 
         result_lst = [59, "l", 120, "i"]
         assert list(gen_iter_1) == result_lst
 
-        gen_iter_2 = gen_chain(lst_t1, lst_t2) # <<< вызываем генератор
+        gen_iter_2 = gen_chain(lst_t1, lst_t2)  # <<< вызываем генератор
         assert next(gen_iter_2) == result_lst[0]
         assert next(gen_iter_2) == result_lst[1]
         assert next(gen_iter_2) == result_lst[2]
