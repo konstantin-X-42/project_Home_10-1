@@ -145,7 +145,7 @@ if __name__ == "__main__":
 
     # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    print("\n-- ГЕНЕРАТОР ТЕСТЫ asert --")
+    print("\n-- ГЕНЕРАТОР ТЕСТЫ assert --")
 
     def gen_chain(lst_s1: list, lst_s2: list):  # type: ignore
         for i in range(len(lst_s1)):
@@ -155,26 +155,25 @@ if __name__ == "__main__":
 
     list_1 = [59, 120, 75, 1]  # задаём параметры
     list_2 = ["l", "i", "s", "t"]  # задаём параметры
+    
     gen_iter = gen_chain(list_1, list_2)
     print(list(gen_iter))  # <<< выдаёт все элементы генератора
 
-    gen_iter = gen_chain(lst_1, lst_2)  # если в тесте необходимо проверить
-    # еще элементы вызываем генератор повторно
-    print(list(gen_iter))
-
-    # print(next(gen_iter))
-    # print(next(gen_iter))
-    # print(next(gen_iter))
+    gen_iter = gen_chain(lst_1, lst_2) #  генератор апустошён, если для
+    # теста необходимо проверить элементы, вызываем генератор повторно
+    print(next(gen_iter)) # <<< 59
+    print(next(gen_iter)) # <<< l
+    print(next(gen_iter)) # <<< 120
 
     def test_gen_chain():  # type: ignore
         lst_t1 = [59, 120]
         lst_t2 = ["l", "i"]
-        gen_iter_1 = gen_chain(lst_t1, lst_t2)
+        gen_iter_1 = gen_chain(lst_t1, lst_t2) # <<< запускаем генератор
 
         result_lst = [59, "l", 120, "i"]
         assert list(gen_iter_1) == result_lst
 
-        gen_iter_2 = gen_chain(lst_t1, lst_t2)
+        gen_iter_2 = gen_chain(lst_t1, lst_t2) # <<< запускаем генератор
         assert next(gen_iter_2) == result_lst[0]
         assert next(gen_iter_2) == result_lst[1]
         assert next(gen_iter_2) == result_lst[2]
