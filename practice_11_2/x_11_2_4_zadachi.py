@@ -88,7 +88,6 @@ def yield_items(func):  # type: ignore
     def wrapper(*args, **kwargs):  # type: ignore
         result = func(*args, **kwargs)
         # Проверка на тип с использованием type()
-        # if type(result) in (list, tuple):
         if isinstance(result, (list, tuple)):  # Действие, если это список или кортеж
             for item in result:
                 yield item
@@ -100,15 +99,12 @@ def yield_items(func):  # type: ignore
 
 # запускаем декоратор — вешаем над функцией
 @yield_items
-# def yield_items_result():
-def get_data(n):  # type: ignore
+def get_data(n):  # type: ignore  # функция get_data стала генератором!
     if n > 0:
         return [1, 2, 3]  # Возвращаем список
     else:
         return "Одиночный объект"  # Возвращаем строку
 
-
-# Теперь функция get_data стала генератором!
 
 # ЗАПУСК:
 # Просто вызвать get_data(5) недостаточно, так как это теперь генератор.
