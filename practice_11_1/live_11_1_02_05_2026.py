@@ -213,7 +213,7 @@ if __name__ == "__main__":
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-print("\n-- ИТЕРАТОР ТЕСТЫ asert --")
+print("\n-- ИТЕРАТОР ТЕСТЫ assert --")
 
 
 def gen_iter():  # type: ignore
@@ -237,7 +237,7 @@ def test_gen_chain_iterator():  # type: ignore
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-print("\n-- ИТЕРАТОР ТЕСТЫ asert и тест ошибки StopIteration --")
+print("\n-- ИТЕРАТОР ТЕСТЫ assert и тест ошибки StopIteration --")
 
 list_x1 = [59, 120, 75, 1]  # задаём параметры
 list_x2 = ["l", "i", "s", "t"]  # задаём параметры
@@ -267,7 +267,7 @@ test_gen_chain()  # type: ignore
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-print("\n-- ИТЕРАТОР ТЕСТЫ asert и тест ошибки AssertionError --")
+print("\n-- ИТЕРАТОР ТЕСТЫ assert и тест ошибки AssertionError --")
 
 lst_1 = [59, 120]
 lst_2 = ["l", "i"]
