@@ -119,3 +119,51 @@ for x in get_data(-1):
     print(x)
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+"""
+Задача 4
+Напишите декоратор, который берет результат декорируемой функции (текст) и возвращает текст,
+в котором каждое слово сокращено до 8 символов. Если слово было сокращено, в конце слова ставится точка.
+"""
+print("-- Задача 4 --")
+
+
+def shorten_words(func):  # type: ignore
+    def wrapper(*args, **kwargs):  # type: ignore
+        result = func(*args, **kwargs)
+        words = result.split()  # преобразуем в список строк ['1', '2', '3']
+        shortened_words = []
+        for word in words:
+            if len(word) > 8:  # определяем str более 8 символов
+                shortened_word = word[:8] + "."  # обрезаем до 8 символов и добавляем точку
+                shortened_words.append(shortened_word)  # добавляем элемент в конец списка []
+            else:
+                shortened_words.append(word)  # добавляем элемент в конец списка []
+        return " ".join(shortened_words)
+
+    return wrapper
+
+
+@shorten_words
+def get_text():  # type: ignore
+    return "программирование"
+
+
+print(get_text())
+
+
+# запись кода в одну строку
+def shorten_words_2(func):  # type: ignore
+    def wrapper(*args, **kwargs):  # type: ignore
+        result = func(*args, **kwargs)
+        return " ".join(f"{word_2[:8]}." if len(word_2) > 8 else word_2 for word_2 in result.split())
+
+    return wrapper
+
+
+@shorten_words_2
+def get_text_2():  # type: ignore
+    return "программирование_2"
+
+
+print(get_text_2())
