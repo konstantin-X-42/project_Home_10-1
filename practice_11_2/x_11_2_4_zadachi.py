@@ -44,7 +44,7 @@ print(res_2)
 Напишите декоратор, который повторно вызывает декорируемую функцию три раза.
 Каждый раз через три секунды, если произошла ошибка.
 """
-print("-- Задача 2 --")
+print("\n-- Задача 2 --")
 # import time
 
 
@@ -81,7 +81,7 @@ except Exception as e:
 Напишите декоратор, который позволяет возвращать элементы декорируемой функции по одному через yield,
 если эта функция возвращает список или кортеж.
 """
-print("-- Задача 3 --")
+print("\n-- Задача 3 --")
 
 
 def yield_items(func):  # type: ignore
@@ -125,7 +125,7 @@ for x in get_data(-1):
 Напишите декоратор, который берет результат декорируемой функции (текст) и возвращает текст,
 в котором каждое слово сокращено до 8 символов. Если слово было сокращено, в конце слова ставится точка.
 """
-print("-- Задача 4 --")
+print("\n-- Задача 4 --")
 
 
 def shorten_words(func):  # type: ignore
@@ -169,3 +169,46 @@ def get_text_2():  # type: ignore
 print(get_text_2())
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+"""
+Задача 5
+Напишите три декоратора, которые можно применять последовательно к результату декорируемой функции.
+Первый декоратор должен заменять в тексте, который выдает функция, все восклицательные знаки ! на !!!
+Второй декоратор должен заменять в тексте, который выдает функция, все знаки вопроса ? на ???
+Третий декоратор должен заменять в тексте, который выдает функция, все точки . на ...
+"""
+print("\n-- Задача 5 --")
+
+
+def exclamation_marks(func):  # type: ignore
+    def wrapper(*args, **kwargs):  # type: ignore
+        result = func(*args, **kwargs)
+        return result.replace("!", "!!!")  # .relpace - поиска части текста и её замены на что-то другое
+
+    return wrapper
+
+
+def question_marks(func):  # type: ignore
+    def wrapper(*args, **kwargs):  # type: ignore
+        result = func(*args, **kwargs)
+        return result.replace("?", "???")
+
+    return wrapper
+
+
+def dots(func):  # type: ignore
+    def wrapper(*args, **kwargs):  # type: ignore
+        result = func(*args, **kwargs)
+        return result.replace(".", "...")
+
+    return wrapper
+
+
+@exclamation_marks
+@question_marks
+@dots
+def my_function():  # type: ignore
+    return "Это предложение. В нем есть вопрос? Нужно ли больше восклицаний!"
+
+
+print(my_function())
