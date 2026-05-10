@@ -14,7 +14,7 @@ def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callab
         def wrapper(*args, **kwargs):
             now = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S.%f")[
                 :-3
-            ]  # фиксирует время обращения к декоратору
+            ]  # фиксирует время обращения к декоратору в формате Г.М.Д Ч:М:С:млС
             try:
                 result = func(*args, **kwargs)
                 log_message = (
