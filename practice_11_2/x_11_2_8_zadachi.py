@@ -127,6 +127,7 @@ print("\n-- Задача 3 --")
 # from functools import wraps
 
 
+# декоратор
 def shorten_words(max_len, *, end_symbol="."):  # type: ignore
     def wrapper(func):  # type: ignore
         @wraps(func)
@@ -147,8 +148,75 @@ def shorten_words(max_len, *, end_symbol="."):  # type: ignore
 @shorten_words(4, end_symbol="!")  # type: ignore
 def some_func():  # type: ignore
     return "Впрочем, никого не прельщает сама по себе боль, никто не желает её приобретения\
-         \n и не ищет её только потому, что она — боль..."
+        \n и не ищет её только потому, что она — боль..."
 
 
 print(some_func())
 # >>> Впро! нико! не прел! сама по себе боль! никт! не жела! её прио! и не ищет её толь! пото! что она — боль!
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+"""
+Задача 4
+Напишите тесты с использованием библиотеки pytest для проверки корректности работы декоратора из задачи 3.
+"""
+"""
+КАМАНДА ЗАПУСКАЕТ ТЕСТ в консоль МОДУЛЬ x_11_2_8_zadachi
+pytest practice_11_2/x_11_2_8_zadachi.py
+"""
+print("\n-- Задача 4 --")
+# import pytest
+
+
+# Тест № 1
+# Тестируемая функция
+@shorten_words(4, end_symbol="!")  # type: ignore  # задаём параметры
+def get_text():  # type: ignore  # запускаем функцию
+    return "Lorem ipsum dolor sit amet, consectetur adipiscing elit."  # задаём вывод функции
+
+
+# print(get_text())     # запускаем для визуализации результата декоратора
+# >>> Lore! ipsu! dolo! sit amet! cons! adip! elit!
+
+
+def test_shortening():  # type: ignore
+    """проверка декоратора на правильность среза и добавление элемента"""
+    assert get_text() == "Lore! ipsu! dolo! sit amet! cons! adip! elit!"
+    # сравниваем обработка декоратора = ожидаемый результат
+
+
+# --------------------------------------------
+# Тест № 2
+def test_no_shortening():  # type: ignore
+    """проверка декоратора на возврат идентичной строки без среза"""
+
+    # увеличиваем допустимые элементы, возврат строки декоратором без изменений
+    @shorten_words(10, end_symbol="!")  # type: ignore
+    def get_long_text():  # type: ignore
+        return "Lorem ipsum dolor sit amet"
+
+    assert get_long_text() == "Lorem ipsum dolor sit amet"
+
+
+# --------------------------------------------
+# Тест № 3
+def test_end_symbol():  # type: ignore
+    """проверка декоратора, что вставляет символ в конце каждого элемента и не оставляет пробел"""
+
+    @shorten_words(3, end_symbol="?")  # type: ignore
+    def get_questioned_text():  # type: ignore
+        return "Lorem ipsum dolor"
+
+    assert get_questioned_text() == "Lor? ips? dol?"
+
+
+# --------------------------------------------
+# Тест № 4
+def test_different_lengths():  # type: ignore
+    """проверка декоратора, на правильность выборочного среза и не оставляет пробел"""
+
+    @shorten_words(5, end_symbol=".")  # type: ignore
+    def get_different_lengths_text():  # type: ignore
+        return "Hello beautiful world"
+
+    assert get_different_lengths_text() == "Hello beaut. world"
