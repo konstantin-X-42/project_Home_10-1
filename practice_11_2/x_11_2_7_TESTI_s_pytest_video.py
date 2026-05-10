@@ -83,6 +83,10 @@ def test_retry_decorator():  # type: ignore
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 # from functools import wraps
 
+"""
+Написать тесты дя декоратора check_that_arg_is
+"""
+
 
 def check_that_arg_is(predicate, error_message):  # type: ignore
     """Декоратор проверяет аргументы функции на соответствие определенному правилу (предикату)
