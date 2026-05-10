@@ -14,6 +14,8 @@ print("-- Задача 1 --")
 def check_floats(precision):  # type: ignore
     def decorator(func):  # type: ignore
         @wraps(func)
+        #  @wraps(func) копирует все данные (имя, документацию, список аргументов) из оригинальной функции
+        # func во внутреннюю функцию
         def inner(*args, **kwargs):  # type: ignore
             result = func(*args, **kwargs)
             if isinstance(result, float):  # Проверка на тип с использованием type(), то же - if type(result) == float:
@@ -110,3 +112,43 @@ try:
     print(f"Результат: {result}")
 except Exception as e:
     print(f"ВНИМАНИЕ: {e}")
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+"""
+Задача 3
+Напишите декоратор, который берет результат декорируемой функции (текст) и возвращает текст,
+в котором каждое слово сокращено до определенной длины. Если слово было сокращено,
+в конце слова ставится переданный символ. Количество символов в слове и знак в конце сокращенного слова
+— параметры декоратора, причем символ обязательно должен передаваться как именованный аргумент.
+"""
+print("\n-- Задача 3 --")
+
+# from functools import wraps
+
+
+def shorten_words(max_len, *, end_symbol="."):  # type: ignore
+    def wrapper(func):  # type: ignore
+        @wraps(func)
+        def inner(*args, **kwargs):  # type: ignore
+            result_3 = func(*args, **kwargs)
+            return " ".join(
+                f"{word[:max_len]}{end_symbol}" if len(word) > max_len else word for word in result_3.split()
+            )
+
+        return inner
+
+    return wrapper
+
+
+"""оборачиваем функцию декоратором"""
+
+
+@shorten_words(4, end_symbol="!")  # type: ignore
+def some_func():  # type: ignore
+    return "Впрочем, никого не прельщает сама по себе боль, никто не желает её приобретения\
+         \n и не ищет её только потому, что она — боль..."
+
+
+print(some_func())
+# >>> Впро! нико! не прел! сама по себе боль! никт! не жела! её прио! и не ищет её толь! пото! что она — боль!
