@@ -1,3 +1,4 @@
+import time
 from functools import wraps
 
 """
@@ -9,6 +10,7 @@ precision, который указывает, до скольких цифр п�
 print("-- Задача 1 --")
 
 
+# декоратор
 def check_floats(precision):  # type: ignore
     def decorator(func):  # type: ignore
         @wraps(func)
@@ -57,9 +59,10 @@ print(get_coordinates())  # Выведет: [3.142, 2.718, 'ошибка']
 print("\n-- Задача 2 --")
 
 # from functools import wraps
-import time
+# import time
 
 
+# декоратор
 def retry(*, retries=3, delay=3):  # type: ignore #  * все аргументы после retries,
     # и delay должны передаваться только по имени.
     def wrapper(func):  # type: ignore
@@ -68,7 +71,7 @@ def retry(*, retries=3, delay=3):  # type: ignore #  * все аргументы
             for i in range(retries):
                 try:
                     return func(*args, **kwargs)
-                except:
+                except Exception:
                     time.sleep(delay)  # метод .sleep(5) - приостановление программы на 5 сек
             raise Exception(
                 "Сбой вызова функции после нескольких попыток"
@@ -81,7 +84,7 @@ def retry(*, retries=3, delay=3):  # type: ignore #  * все аргументы
 
 
 """оборачиваем функцию декоратором"""
-"""функция, «капризничает» и выдает ошибку первые два раза, а на третий — срабатывает"""
+# функция, «капризничает» и выдает ошибку первые два раза, а на третий — срабатывает
 
 
 @retry(retries=5, delay=1)  # type: ignore  # Настраиваем: 5 попыток, пауза 1 секунда между ними
