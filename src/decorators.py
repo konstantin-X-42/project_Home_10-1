@@ -1,17 +1,16 @@
 import datetime
 from functools import wraps
-from typing import Any, Callable, Optional
 
 
-def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+def log(filename=None):  # type: ignore
     """
     Декоратор для логирования работы функций.
     :param filename: Путь к файлу лога. Если None, вывод только в консоль.
     """
 
-    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+    def decorator(func):  # type: ignore
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs):  # type: ignore
             now = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S.%f")[
                 :-3
             ]  # фиксирует время обращения к декоратору в формате Г.М.Д Ч:М:С:млС
@@ -20,8 +19,8 @@ def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callab
                 log_message = (
                     f"{now} {func.__name__} успешно\n"  # сообщение в лог, now - дата и время, название функции
                 )
-
-                _write_log(log_message, filename)  # функция внутренняя записывает текст log_message в адрес filename
+                # функция внутренняя _write_log(), записывает текст log_message, по адресу filename
+                _write_log(log_message, filename)  # type: ignore
                 return result
 
             except Exception as e:  # Если произошла ошибка фиксируем в лог
@@ -29,7 +28,7 @@ def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callab
                     f"{now} {func.__name__} error: {type(e).__name__}. "  # дата,время,тип ошибки
                     f"Inputs: {args}, {kwargs}\n"  # и входные аргументы
                 )
-                _write_log(log_message, filename)  # записываем в лог
+                _write_log(log_message, filename)  # type: ignore  # записываем в лог
                 raise e  # Пробрасываем ошибку дальше
 
         return wrapper
@@ -37,7 +36,7 @@ def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callab
     return decorator
 
 
-def _write_log(message, filename):
+def _write_log(message, filename):  # type: ignore
     """Вспомогательная функция для вывода лога"""
     if filename:
         with open(
