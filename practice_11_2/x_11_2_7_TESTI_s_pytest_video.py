@@ -3,7 +3,7 @@ from functools import wraps
 import pytest
 
 """
-КАМАНДА ЗАПУСКАЕТ ТЕСТ в консоль МОДУЛЬ x_11_2_8_zadachi
+КАМАНДА ЗАПУСКАЕТ ТЕСТ в консоль из МОДУЛЯ x_11_2_8_zadachi
 pytest practice_11_2/x_11_2_7_TESTI_s_pytest_video.py
 """
 
@@ -30,7 +30,7 @@ def test_double_decorator():  # type: ignore
 
     @double_decorator
     def add_numbers(a, b):  # type: ignore
-        """Используем любую функцию, возвращающую числовые значения, результат должен умножен на 2"""
+        """Используем любую функцию, возвращающую числовые значения, результат декоратором умножен на 2"""
         return a + b
 
     result = add_numbers(3, 5)
