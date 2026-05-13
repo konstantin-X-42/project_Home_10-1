@@ -3,7 +3,7 @@ from functools import wraps
 import pytest
 
 """
-КАМАНДА ЗАПУСКАЕТ ТЕСТ в консоль из МОДУЛЯ x_11_2_8_zadachi
+КАМАНДА ЗАПУСКАЕТ ТЕСТ в консоль из МОДУЛЯ x_11_2_7_TESTI_s_pytest_video
 pytest practice_11_2/x_11_2_7_TESTI_s_pytest_video.py
 """
 
