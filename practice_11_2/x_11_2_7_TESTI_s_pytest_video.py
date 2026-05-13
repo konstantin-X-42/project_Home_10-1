@@ -84,7 +84,7 @@ def test_retry_decorator():  # type: ignore
 # from functools import wraps
 
 """
-Написать тесты дя декоратора check_that_arg_is
+Написать тесты для декоратора check_that_arg_is
 """
 
 
