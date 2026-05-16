@@ -193,12 +193,12 @@ if __name__ == "__main__":
         },
     ]
 
-    with open("transactions.json", "w", encoding="utf-8") as f:
+    with open("x_12_1_5_transactions.json", "w", encoding="utf-8") as f:
         json.dump(sample_data, f, ensure_ascii=False, indent=4)
 
     # 2. Вызываем функцию фильтрации по валюте 'USD'
     filter_transactions(
-        input_file="transactions.json",
-        output_file="transactions_filtered.json",
+        input_file="x_12_1_5_transactions.json",
+        output_file="x_12_1_5_transactions_filtered.json",
         target_currency="USD",
     )
