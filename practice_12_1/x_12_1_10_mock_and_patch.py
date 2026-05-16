@@ -6,7 +6,7 @@ from typing import Any  # импортируем тип Any - любой тип 
 
 import requests  # импортируем библиотеку нужна для отправки HTTP-запросов в интернет.
 from dotenv import load_dotenv  # функция заходит в файл (.env)
-
+""" подключение к серверу только через vpn"""
 """
 устанавливаем библиотеку библиотеку requests — инструмент в Python для отправки HTTP-запросов в интернет.
 poetry add requests
