@@ -60,5 +60,5 @@ def get_weather(latitude: float, longitude: float) -> Any:
 if (
     __name__ == "__main__"
 ):  # проверяет, запущен файл напрямую (как основная программа) или импортирован в другой скрипт
-    latitude, longitude = get_coordinates("Moscow")
-    print(get_weather(latitude, longitude))
+    lat, lon = get_coordinates("Moscow")  # lat, lon - распаковка картежа записываются переменные latitude, longitude
+    print(get_weather(lat, lon))
