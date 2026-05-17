@@ -1,4 +1,6 @@
 import json
+from typing import Any  # специальный тип данных, Any - любой тип
+
 import requests
 
 """
@@ -18,7 +20,8 @@ print(result)
 # import json
 # import requests
 
-def get_github_users(users: str):
+
+def get_github_users(users: str) -> str:
     results = []
     for user in users:
         # вызываем ф-ю get_user_info её результат принимаем в переменные: status и user_data
@@ -29,21 +32,22 @@ def get_github_users(users: str):
         status, repositories = get_user_repos(user)
         if not status:
             continue
-        result = {'login': user_data['login'], 'public_repos': user_data['public_repos'], 'repositories': repositories}
+        result = {"login": user_data["login"], "public_repos": user_data["public_repos"], "repositories": repositories}
         results.append(result)  # добавляем новый элемент в конец существующего списка
     return json.dumps(results)
 
-def get_user_info(user: str) -> tuple[bool, dict]:
+
+def get_user_info(user: str) -> tuple[bool, dict[str, Any]]:
     url = f"https://api.github.com/users/{user}"
     response = requests.get(url)  # сетевой запрос по адресу repo_url, скачивает оттуда ответ сервера.
     if response.status_code != 200:
-        return False, {}          # возвращаем False (статус неудачи) и пустой словарь {} вместо данных
+        return False, {}  # возвращаем False (статус неудачи) и пустой словарь {} вместо данных
     return True, response.json()  # хорошо, возвращаем True и словарь с данными о пользователе
 
-def get_user_repos(user: str) -> tuple[bool, list]:
+
+def get_user_repos(user: str) -> tuple[bool, list[str]]:
     repo_url = f"https://api.github.com/users/{user}/repos"
     repo_response = requests.get(repo_url)  # сетевой запрос по адресу repo_url, скачивает оттуда ответ сервера.
     if repo_response.status_code != 200:
-        return False, []          # возвращаем False (статус неудачи) и пустой список [] вместо данных
-    return True, [repo['name'] for repo in repo_response.json()]  # хорошо, возвращаем True и список имён репозиториев
-
+        return False, []  # возвращаем False (статус неудачи) и пустой список [] вместо данных
+    return True, [repo["name"] for repo in repo_response.json()]  # хорошо, возвращаем True и список имён репозиториев
