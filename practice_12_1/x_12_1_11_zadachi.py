@@ -19,6 +19,7 @@ print(result)
 """
 # import json
 # import requests
+# from typing import Any
 
 
 def get_github_users(users: str) -> str:
@@ -51,3 +52,36 @@ def get_user_repos(user: str) -> tuple[bool, list[str]]:
     if repo_response.status_code != 200:
         return False, []  # возвращаем False (статус неудачи) и пустой список [] вместо данных
     return True, [repo["name"] for repo in repo_response.json()]  # хорошо, возвращаем True и список имён репозиториев
+
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+"""
+Задача 2
+Напишите функцию, которая будет получать курс валюты на текущую дату из API ЦБ РФ и возвращать его в формате JSON.
+Используйте сайт https://www.cbr-xml-daily.ru/daily_json.js.
+Пример вызова функции:
+rate = get_currency_rate("USD")
+print(rate)
+
+Результат:
+{"currency_code": "USD", "rate": 72.7384}
+"""
+# import requests
+
+
+def get_currency_rate(currency_code: str) -> dict[str, Any]:
+    url = "https://www.cbr-xml-daily.ru//daily_json.js"
+    response = requests.get(url)  # делаем сетевой запрос по (url), ответ сервера сохраняем в response
+    if response.status_code != 200:
+        raise ValueError("Не удалось получить курс валюты")
+    data = response.json()
+    currency_data = data["Valute"].get(currency_code)
+    if not currency_data:
+        raise ValueError(f"Нет данных по валюте {currency_code}")
+    return {
+        "currency_code": currency_code,
+        "rate": currency_data["Value"],
+    }
+
+
+print(get_currency_rate("USD"))
