@@ -61,7 +61,7 @@ def test_get_github_users(mock_get_user_repos, mock_get_user_info):
 @patch("practice_12_1.x_12_1_11_zadachi.get_user_info")
 @patch("practice_12_1.x_12_1_11_zadachi.get_user_repos")
 def test_get_github_users_negative(mock_get_user_repos, mock_get_user_info):
-    """Проверяем негативный сценарий для всей главной функции, если переданный пользователь не существует на GitHub."""
+    """Проверяем негативный сценарий для всей главной функции, если переданный пользователь не существует на GitHub"""
     mock_get_user_info.return_value = (False, {})
     mock_get_user_repos.return_value = (False, [])
     result = get_github_users(["non_existent_user"])  # type: ignore
