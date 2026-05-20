@@ -23,9 +23,13 @@ poetry add python-dotenv
 """извлекаем в переменную конфиденциальные данные"""
 current_dir = Path(__file__).resolve().parent  # находим путь к папке, где
 # лежит запускаемый скрипт x_12_1_10_mock_and_patch.py
+
 base_dir = current_dir.parent  # переходим на одну папку выше в project_Home_10_1
+
 load_dotenv(base_dir / ".env")  # указываем место .env / подгружает настройки из скрытого файла (.env) в память
-API_KEY = os.getenv("API_KEY")  # извлекаем ключ из памяти и записываем в API_KEY (переменная Python)
+
+API_KEY = os.getenv("WEATHER_API_KEY")  # извлекаем ключ из памяти и записываем в API_KEY (переменная Python)
+# ----------
 
 
 def get_data(city: str) -> dict[str, Any]:
