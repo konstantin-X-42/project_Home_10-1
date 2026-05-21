@@ -495,7 +495,7 @@ transactions = (
 - ```currency``` строку с кодом валюты ```str```, пример: "USD"
 
 ###### адрес сервера API:
-```https://marketplace.apilayer.com/exchangerates_data-api```
+```https://marketplace.apilayer.com/```
 
 ##### алгоритм работы функции:
 - если транзакция изначально в RUB, возвращает число
