@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 import requests
-from dotenv import load_dotenv  # Убрали ошибочный load_workbook
+from dotenv import load_dotenv  # загружает переменные окружения из файла .env в систему
 
 # Загружаем переменные окружения из .env в корне проекта
 env_path = Path(__file__).resolve().parent.parent / ".env"
