@@ -1,46 +1,51 @@
 import os
+from pathlib import Path
 
 import requests
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # Убрали ошибочный load_workbook
 
-# Загрузка переменных окружения из файла .env
-load_dotenv()
+# Загружаем переменные окружения из .env в корне проекта
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
-API_KEY = os.getenv("EXCHANGE_RATES_API_KEY")
-BASE_URL = "https://apilayer.com"
+API_KEY = os.getenv("CURRENCY_API_KEY")
+BASE_URL = "https://api.apilayer.com/exchangerates_data/convert"
 
 
-def convert_to_rub(transaction: dict) -> float:
-    """Конвертирует сумму транзакции из USD или EUR в RUB."""
-    amount = float(transaction.get("amount", 0.0))
-    currency = transaction.get("currency")
+def conversion_rub(amount: float, from_currency: str) -> float:
+    """Конвертирует сумму из указанной валюты (USD/EUR) в RUB через API.
+    Если валюта перевода уже RUB, возвращает сумму в формате float без запроса.
+    Если API недоступно или ключ отсутствует, возвращает 0.0.
+    """
+    # 1. Быстрая проверка: если валюта уже рубли, приводим к float и возвращаем
+    if from_currency == "RUB":
+        return float(amount)
 
-    # Если валюта уже рубли, конвертация не требуется
-    if currency == "RUB":
-        return amount
+    # 2. Проверка наличия API-ключа
+    if not API_KEY:
+        print("Ошибка: API-ключ не найден в переменных окружения.")
+        return 0.0
 
-    # Если валюта USD или EUR, запрашиваем актуальный курс
-    if currency in ["USD", "EUR"]:
-        headers = {"apikey": API_KEY}
-        params = {"symbols": "RUB", "base": currency}
+    # 3. Запрос к серверу для остальных валют
+    headers = {"apikey": API_KEY}
+    params = {"to": "RUB", "from": from_currency, "amount": amount}
 
-        try:
-            response = requests.get(BASE_URL, headers=headers, params=params)
-            response.raise_for_status()
-            data = response.json()
+    try:
+        response = requests.get(BASE_URL, headers=headers, params=params)  # type: ignore
+        # print("Ответ сервера:", response.text)
+        response.raise_for_status()
+        data = response.json()
 
-            # Получаем курс рубля к базовой валюте
-            rate = data["rates"]["RUB"]
-            return float(amount * rate)
+        # Предполагаем, что API возвращает результат в поле "result"
+        return float(data.get("result", 0.0))
 
-        except (requests.RequestException, KeyError, ValueError) as e:
-            print(f"Ошибка при запросе курса валют: {e}")
-            raise RuntimeError("Не удалось выполнить конвертацию валюты")
+    except (requests.RequestException, KeyError, ValueError) as e:
+        print(f"Ошибка при конвертации валюты: {e}")
+        return 0.0
 
-    # Если валюта не поддерживается
-    raise ValueError(f"Неподдерживаемая валюта: {currency}")
-            print(f"Ошибка при обращении к API валют: {e}")
-            return 0.0
 
-    # Если пришла какая-то другая неизвестная валюта
-    return 0.0
+# -----------вызываем функцию------------
+# print(conversion_rub(153.26, "USD"))
+# print(conversion_rub(153.26, "RUB"))
+# print(conversion_rub(153.26, "EUR"))
+# print(conversion_rub(153.26, "GBP"))
