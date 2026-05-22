@@ -1,7 +1,9 @@
 .idea/
 htmlcov
 .coverage
+.env
 
+#---------------
 
 .venv/
 __pycache__/
@@ -158,7 +160,6 @@ activemq-data/
 *.sage.py
 
 # Environments
-.env
 .envrc
 .venv
 env/
