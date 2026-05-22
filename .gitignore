@@ -2,7 +2,7 @@
 htmlcov
 .coverage
 .env
-
+config.py
 #---------------
 
 .venv/
