@@ -14,6 +14,7 @@ log = module_logger(
     overwrite=False,  # предыдущие логи в файле: False - оставить и записать, True - очистить и записать
     log_console=True,  # лог: True - в файл и консоль, False - в файл
 )
+log.info("Система логирования в модуле utils.py инициализирована успешно")
 # -------------------------------------------------------
 
 # Абсолютный путь к папке src, где лежит utils.py для файла JSON
@@ -27,7 +28,7 @@ def get_transactions(file: str | Path) -> list[dict[str, Any]]:
     log.info(f"Функция инициализирована с аргументом: {file}")
     path = Path(file)
     if not path.is_file():
-        log.error("JSON-файл не существует, возвращаем []")
+        log.warning("JSON-файл не существует, возвращаем []")
         return []
     try:
         with open(path, "r", encoding="utf-8") as json_file:  # открываем JSON-файл на чтение
@@ -35,10 +36,10 @@ def get_transactions(file: str | Path) -> list[dict[str, Any]]:
             if isinstance(data, list):  # обрабатываем только тип данных List[]
                 log.info("Успешно")
                 return data
-            log.error(f"Функция обрабатывает: <class 'list'>, тип данных JSON-файла: {type(data)}, возвращаем []")
+            log.warning(f"Функция обрабатывает: <class 'list'>, тип данных JSON-файла: {type(data)}, возвращаем []")
             return []  # иной тип данных, не list - ошибка
     except json.JSONDecodeError, FileNotFoundError:
-        log.error("Содержимое JSON-файла повреждено или JSON-файл отсутствует, возвращаем []")
+        log.critical("Содержимое JSON-файла повреждено или JSON-файл отсутствует, возвращаем []")
         return []
 
 
@@ -47,6 +48,6 @@ def get_transactions(file: str | Path) -> list[dict[str, Any]]:
 # path_to_file = "../data/operations.json"
 
 # Абсолютный путь к файлу operations.json
-# path_to_file = CURRENT_DIR.parent / "data" / "operations.json"
-#
-# print(get_transactions(path_to_file))
+path_to_file = CURRENT_DIR.parent / "data" / "operations.json"
+
+print(get_transactions(path_to_file))
