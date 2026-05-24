@@ -3,7 +3,11 @@ import os
 
 
 def module_logger(
-    file_name: str = "logs.log", logger_name: str = "logs", overwrite: bool = False, log_console: bool = False
+    file_name: str = "logs.log",
+    logger_name: str = "logs",
+    log_level: int = logging.DEBUG,
+    overwrite: bool = False,
+    log_console: bool = False,
 ) -> logging.Logger:
     """Функция для настройки логгера с динамическим именем файла,
     и именными аргументами - тогда все логи в один файл, False - хранить предыдущий лог,
@@ -16,7 +20,7 @@ def module_logger(
     if logger.handlers:
         return logger
 
-    logger.setLevel(logging.INFO)  # выставляем уровень логирования INFO WARNING ERROR CRITICAL
+    logger.setLevel(log_level)  # выставляем уровень логирования DEBUG INFO WARNING ERROR CRITICAL
 
     path_log = f"logs/{file_name}"  # динамический относительный путь хранения файла лога
     abs_file_path = os.path.abspath(path_log)  # определяем абсолютный путь к файлу логов
@@ -49,18 +53,25 @@ def module_logger(
 
 
 # -------------------------------------------------------
+# import logging
+
 # # Импортируем функцию настройки логгера из файла log_config абсолютный путь
 # from src.log_config import module_logger
 
-# Импортируем функцию настройки логгера из файла log_config на один уровень выше (в корне проекта)
+# # Импортируем функцию настройки логгера из файла log_config на один уровень выше (в корне проекта)
 # from ..log_config import module_logger
 
-# Импортируем функцию настройки логгера из файла log_config из папке: основное_окружение/имя папки
+# # Импортируем функцию настройки логгера из файла log_config из папке: основное_окружение/имя папки
 # from ИМЯ_ПАПКИ_(директории).log_config import module_logger
 
-# # Инициализируем логгер (задаем имя файлу, имя логгеру, дозапись-False,
-# перезапись-True; лог в файл и консоль-True, в файл-False)
-# log = module_logger(file_name="logs.log", logger_name='logs', overwrite=False, log_console=False)
+# # Инициализируем логгер
+# log = module_logger(
+#     file_name="logs.log", # имя файла для записи лога
+#     logger_name='logs',   # имя папки (директория хранения лог файла)
+#     log_level=logging.DEBUG, # уровень логирования DEBUG INFO WARNING ERROR CRITICAL
+#     overwrite=False, # предыдущие логи в файле: False - оставить и записать, True - очистить и записать
+#     log_console=False, # лог: True - в файл и консоль, False - в файл
+# )
 # -------------------------------------------------------
 # --- ПРИМЕР ИСПОЛЬЗОВАНИЯ ---
 # log.info(f"Функция инициализирована с аргументом: {file}")

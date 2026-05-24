@@ -1,13 +1,19 @@
 import json
+import logging
 from pathlib import Path
 from typing import Any
 
 # Импортируем функцию настройки логгера из файла log_config текущей директории
 from src.log_config import module_logger
 
-# Инициализируем логгер (задаем имя файлу, имя логгеру, дозапись-False,
-# перезапись-True; лог в файл и консоль-True, в файл-False)
-log = module_logger(file_name="utils.log", logger_name="logs", overwrite=False, log_console=True)
+# Инициализируем логгер
+log = module_logger(
+    file_name="utils.log",  # имя файла для записи лога
+    logger_name="logs",  # имя папки (директория хранения лог файла)
+    log_level=logging.DEBUG,  # уровень логирования DEBUG INFO WARNING ERROR CRITICAL
+    overwrite=False,  # предыдущие логи в файле: False - оставить и записать, True - очистить и записать
+    log_console=True,  # лог: True - в файл и консоль, False - в файл
+)
 # -------------------------------------------------------
 
 # Абсолютный путь к папке src, где лежит utils.py для файла JSON
@@ -42,5 +48,5 @@ def get_transactions(file: str | Path) -> list[dict[str, Any]]:
 
 # Абсолютный путь к файлу operations.json
 # path_to_file = CURRENT_DIR.parent / "data" / "operations.json"
-
+#
 # print(get_transactions(path_to_file))
