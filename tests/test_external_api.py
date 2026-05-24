@@ -1,7 +1,10 @@
 import unittest
 from unittest.mock import MagicMock, patch  # импортируем patch — функция-декоратор и MagicMock — создания заглушек
+
 import requests
+
 from src.external_api import conversion_rub  # Импортируем тестируемую функцию
+
 """
 показать подробный отчет (название каждого теста и статус).
 pytest tests/test_external_api.py -v
@@ -10,6 +13,7 @@ python -m unittest tests/test_external_api.py -v
 выводить print() в консоль во время работы тестов.
 pytest tests/test_external_api.py -s
 """
+
 
 class TestExternalApi(unittest.TestCase):
 
@@ -31,7 +35,7 @@ class TestExternalApi(unittest.TestCase):
         mock_get.assert_called_once_with(
             "https://api.apilayer.com/exchangerates_data/convert",
             headers={"apikey": "test_secret_key"},
-            params={"to": "RUB", "from": "USD", "amount": 100.0}
+            params={"to": "RUB", "from": "USD", "amount": 100.0},
         )
 
     @patch("src.external_api.requests.get")
