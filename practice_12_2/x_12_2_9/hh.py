@@ -8,16 +8,14 @@ url = "https://api.hh.ru/vacancies"
 params = {
     "text": "Python",  # Ключевое слово для поиска
     "area": "1",  # Регион (1 — это Москва)
-    "per_page": "5"  # Сколько вакансий вернуть в ответе
+    "per_page": "5",  # Сколько вакансий вернуть в ответе
 }
 
-# 3. Обязательный заголовок для индентификации вашего скрипта
-headers = {
-    "User-Agent": "KonstantinStudyProjectHHParser/1.0 (kostyani4y@yandex.ru)"
-}
+# 3. Обязательный заголовок для идентификации вашего скрипта
+headers: dict[str, str] = {"User-Agent": "KonstantinStudyProjectHHParser/1.0 (kostyani4y@yandex.ru)"}
 
 # 4. Отправляем GET-запрос к серверу API
-response = requests.get(url, params=params, headers=headers)
+response = requests.get(url, params=params, headers=headers)  # type: ignore
 
 # 5. Проверяем, что сервер ответил успешно (код 200) и прислал JSON
 if response.status_code == 200 and "application/json" in response.headers.get("Content-Type", ""):
