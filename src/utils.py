@@ -48,6 +48,6 @@ def get_transactions(file: str | Path) -> list[dict[str, Any]]:
 # path_to_file = "../data/operations.json"
 
 # Абсолютный путь к файлу operations.json
-path_to_file = CURRENT_DIR.parent / "data" / "operations.json"
+# path_to_file = CURRENT_DIR.parent / "data" / "operations.json"
 
-print(get_transactions(path_to_file))
+# print(get_transactions(path_to_file))
