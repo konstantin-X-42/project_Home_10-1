@@ -3,8 +3,14 @@ import os
 import pandas as pd
 
 """
-Установка библиотеки pandas
+Библиотеки pandas основной пакет
 poetry add pandas
+
+библиотеку openpyxl для открытия и чтения файлов формата Excel
+poetry add openpyxl
+
+Файлы типов структуры библиотеки pandas для статического анализатора mypy
+poetry add --group dev pandas-stubs
 """
 
 
@@ -15,8 +21,16 @@ print(df)
 
 # ---------------------------------------------
 
-# Собираем точный путь к файлу (теперь с расширением .csv)
-file_path = os.path.join(current_dir, "data_13_1", "winemag-data-130k-v2.csv")
+print("-- читаем таблицу в файле Excel --")
 
-# Загружаем CSV-файл через специальную функцию read_csv
-df = pd.read_csv(file_path)
+# Получаем путь к папке, где лежит этот скрипт (data_13_1)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Собираем полный путь к Excel-файлу
+file_path = os.path.join(current_dir, "data_13_1", "winemag-data-130k-v2.xlsx")
+
+# Читаем файл
+df = pd.read_excel(file_path)
+
+print(df.shape)
+print(df.head())
