@@ -34,3 +34,19 @@ df = pd.read_excel(file_path)
 
 print(df.shape)
 print(df.head())
+
+# ВОЗВРАЩАЕТ
+#    Yes   No
+# 0  130   50
+# 1   50   56
+# 2   25  100
+# -- читаем таблицу в файле Excel --
+# (129971, 14)
+#    Unnamed: 0   country  ...         variety               winery
+# 0           0     Italy  ...     White Blend              Nicosia
+# 1           1  Portugal  ...  Portuguese Red  Quinta dos Avidagos
+# 2           2        US  ...      Pinot Gris            Rainstorm
+# 3           3        US  ...        Riesling           St. Julian
+# 4           4        US  ...      Pinot Noir         Sweet Cheeks
+#
+# [5 rows x 14 columns]
