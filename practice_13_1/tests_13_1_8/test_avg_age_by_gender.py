@@ -7,7 +7,7 @@ from practice_13_1.x_13_1_8_practice import avg_age_by_gender
 
 """
 команда pytest только для модуля test_avg_age_by_gender.py
-poetry run pytest practice_13_1/test_13_1_8/test_avg_age_by_gender.py
+poetry run pytest practice_13_1/tests_13_1_8/test_avg_age_by_gender.py
 """
 
 

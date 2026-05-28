@@ -45,7 +45,7 @@ if __name__ == "__main__":
     # titanic_df = pd.read_csv(url)
 
     # ВАРИАНТ 2-й ЧЕРЕЗ директорию на компьютере
-    # Получаем путь к папке, где лежит этот скрипт (data_13_1)
+    # получаем путь к папке, где лежит этот скрипт (data_13_1)
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
     titanic_df = pd.read_csv(os.path.join(current_dir, "data_13_1", "titanic.csv"))
