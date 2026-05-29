@@ -20,7 +20,7 @@ from src.excel_csv_reader import transactions_csv, transactions_excel
 
 @patch("csv.DictReader")
 def test_transactions_csv_success(mock_dict_reader):
-    """Тест успешного чтения данных из CSV с использованием mock."""
+    """Проверяем успешное чтение данных из CSV с использованием mock"""
 
     # Имитируем данные, которые должен вернуть csv.DictReader
     mock_rows = [
