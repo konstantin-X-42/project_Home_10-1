@@ -88,7 +88,7 @@ print(matches)
 
 # --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
 print("\n--  --  6. Квантификатор {n,m}  --  --  --\n")
-# --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --дддддддддддддддддддд
+# --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --  --
 
 
 """
@@ -189,7 +189,7 @@ corey-321-schafer@my-work.net
 
 pattern = re.compile(r"[a-zA-Z0-9._+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
 
-matches = pattern.finditer(emails)
+matches = pattern.finditer(emails)  # type: ignore
 
 for match in matches:
     print(match)
@@ -215,7 +215,7 @@ emails = [
     "user2@yahoo.com",
     "user3@gmail.com",
     "user4@hotmail.com",
-]
+]  # type: ignore
 
 # Фильтрация email-адресов, заканчивающихся на @gmail.com
 gmail_emails = []
