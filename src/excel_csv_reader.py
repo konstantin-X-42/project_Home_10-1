@@ -33,9 +33,9 @@ if __name__ == "__main__":
     # Автоматически определяем путь к папке со скриптом
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Собираем абсолютный путь к файлу внутри папки: data
-    # Модуль excel_csv_reader.py лежит в src/, папка data в корне проекта, поднимаемся на один уровень вверх:
-    path = os.path.abspath(os.path.join(current_dir, "..", "data", "transactions.csv"))
+    # Собираем абсолютный путь к файлу внутри папки: data_13_2_10
+    # Модуль excel_csv_reader.py лежит в src/, папка data_13_2_10 в корне проекта, поднимаемся на один уровень вверх:
+    path = os.path.abspath(os.path.join(current_dir, "..", "data_13_2_10", "transactions.csv"))
 
     # print(transactions_csv(path))
 
@@ -77,8 +77,8 @@ if __name__ == "__main__":
     # Автоматически определяем путь к папке со скриптом
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Собираем абсолютный путь к файлу внутри папки: data
-    # Модуль excel_csv_reader.py лежит в src/, папка data в корне проекта, поднимаемся на один уровень вверх:
-    path = os.path.abspath(os.path.join(current_dir, "..", "data", "transactions_excel.xlsx"))
+    # Собираем абсолютный путь к файлу внутри папки: data_13_2_10
+    # Модуль excel_csv_reader.py лежит в src/, папка data_13_2_10 в корне проекта, поднимаемся на один уровень вверх:
+    path = os.path.abspath(os.path.join(current_dir, "..", "data_13_2_10", "transactions_excel.xlsx"))
 
     print(transactions_excel(path))
