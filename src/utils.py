@@ -12,7 +12,7 @@ log = module_logger(
     logger_name="logs",  # имя папки (директория хранения лог файла)
     log_level=logging.DEBUG,  # уровень логирования DEBUG INFO WARNING ERROR CRITICAL
     overwrite=False,  # предыдущие логи в файле: False - оставить и записать, True - очистить и записать
-    log_console=True,  # лог: True - в файл и консоль, False - в файл
+    log_console=False,  # лог: True - в файл и консоль, False - в файл
 )
 log.info("Система логирования в модуле utils.py инициализирована успешно")
 # -------------------------------------------------------
