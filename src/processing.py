@@ -1,6 +1,6 @@
-from typing import Any
 import re
 from collections import Counter
+from typing import Any
 
 
 def filter_by_state(
@@ -10,7 +10,7 @@ def filter_by_state(
 
     try:  # обработка исключений
         if date_list is None:
-            return [] #"Error_11 - в функцию не подаются аргументы"
+            return []  # "Error_11 - в функцию не подаются аргументы"
         state_list = []
 
         for state_dict in date_list:  # итерируем словари из списка (массива)
@@ -21,7 +21,7 @@ def filter_by_state(
                     state_list.append(state_dict)  # добавляем словарь в конец списка каждую итерацию
         return state_list
     except KeyError:  # обращение к элементу словаря (dict) по key, которого в этом словаре нет
-        return [] #"Error_12 - в аргументе функции, key в словарях или в одном из словарей отсутствует"
+        return []  # "Error_12 - в аргументе функции, key в словарях или в одном из словарей отсутствует"
     # except Exception:  # другая непредвиденная ошибка
     #     return []  # "Error_11 - в функцию не подаются аргументы или поданы в ином формате"
 
@@ -42,14 +42,15 @@ def sort_by_date(date_list: list[dict[str, Any]] | None = None, reverse: bool = 
             key=lambda x: x.get("date", "") if isinstance(x, dict) else "",
             reverse=reverse,
         )
-    except (KeyError, TypeError):  # обращение к элементу словаря (dict) по key, которого в этом словаре нет
+    except KeyError, TypeError:  # обращение к элементу словаря (dict) по key, которого в этом словаре нет
         return []  # "Error_14 - в аргументе функции, key в словарях или в одном из словарей отсутствует"
 
 
 # --------------------------------------------------------------------
 # --------------------------------------------------------------------
 
-def process_bank_search(data: list[dict], search: str) -> list[dict]:
+
+def process_bank_search(data: list[dict], search: str) -> list[dict]:  # type: ignore
     """функция фильтрует список банковских операций по строке поиска, без учета больших и маленьких букв"""
     if not search:
         return data
@@ -64,6 +65,7 @@ def process_bank_search(data: list[dict], search: str) -> list[dict]:
             if pattern.search(description):
                 result.append(operation)
     return result
+
 
 # --------------------------------------------------------------------
 # # --- ТЕСТОВЫЕ ДАННЫЕ ДЛЯ ЗАПУСКА ---
@@ -89,7 +91,8 @@ def process_bank_search(data: list[dict], search: str) -> list[dict]:
 # --------------------------------------------------------------------
 # --------------------------------------------------------------------
 
-def process_bank_operations(data: list[dict], categories: list[str]) -> dict[str, int]:
+
+def process_bank_operations(data: list[dict], categories: list[str]) -> dict[str, int]:  # type: ignore
     """
     Подсчитывает количество банковских операций для каждой заданной категории на основе поля 'description',
     возвращает словарь, ключи — названия категорий, значения — количество.
@@ -110,8 +113,9 @@ def process_bank_operations(data: list[dict], categories: list[str]) -> dict[str
     # словарь с запрошенными категорий
     res = {}
     for category in categories:
-        res[category] = counts[category] # количество повторений в словарь
+        res[category] = counts[category]  # количество повторений в словарь
     return res
+
 
 # --------------------------------------------------------------------
 

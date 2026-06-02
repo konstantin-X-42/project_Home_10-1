@@ -1,5 +1,7 @@
-from src.processing import filter_by_state, sort_by_date, process_bank_search, process_bank_operations
 import pytest
+
+from src.processing import filter_by_state, process_bank_operations, process_bank_search, sort_by_date
+
 
 def test_correct_get_date_executed(date_list_executed):
     assert (
@@ -117,7 +119,7 @@ def test_not_correct_sort_by_date_true(date_list_true):
 
 def test_sort_by_date_none():
     # Проверяем, что функция возвращает список с ошибкой, если передать None
-    assert sort_by_date(None) == [] # "Error_13 - в функцию не подаются аргументы"
+    assert sort_by_date(None) == []  # "Error_13 - в функцию не подаются аргументы"
 
 
 # --------------------------------------------------------------------
@@ -134,39 +136,39 @@ def sample_data():
         {"id": 3, "description": "Перевод частному лицу"},
         {"id": 4, "description": None},
         {"id": 5, "amount": 100},  # Отсутствует ключ description
-        "не валидный словарь"        # Некорректный тип данных в списке
+        "не валидный словарь",  # Некорректный тип данных в списке
     ]
+
 
 def test_search_empty_query(sample_data):
     """Проверяем пустая строка поиска возвращает исходные данные без изменений"""
     assert process_bank_search(sample_data, "") == sample_data
-    assert process_bank_search(sample_data, None) == sample_data
+    assert process_bank_search(sample_data, None) == sample_data  # type: ignore
+
 
 def test_search_case_insensitive(sample_data):
     """Проверяем поиск работает без учета регистра (больших и маленьких букв)"""
-    expected = [
-        {"id": 1, "description": "Перевод организации"},
-        {"id": 3, "description": "Перевод частному лицу"}
-    ]
+    expected = [{"id": 1, "description": "Перевод организации"}, {"id": 3, "description": "Перевод частному лицу"}]
     assert process_bank_search(sample_data, "пЕрЕвОд") == expected
+
 
 def test_search_no_matches(sample_data):
     """Проверяем если совпадений нет, возвращается пустой список"""
     assert process_bank_search(sample_data, "Покупка продуктов") == []
+
 
 def test_search_substring(sample_data):
     """Проверяем поиск по части слова"""
     expected = [{"id": 2, "description": "Оплата услуг: Мобильная связь"}]
     assert process_bank_search(sample_data, "связь") == expected
 
+
 def test_search_with_special_characters():
     """Проверяем корректную обработку специальных символов"""
-    data = [
-        {"id": 1, "description": "ООО 'Витязь'*"},
-        {"id": 2, "description": "Обычное описание"}
-    ]
+    data = [{"id": 1, "description": "ООО 'Витязь'*"}, {"id": 2, "description": "Обычное описание"}]
     expected = [{"id": 1, "description": "ООО 'Витязь'*"}]
     assert process_bank_search(data, "*") == expected
+
 
 def test_invalid_elements_ignored(sample_data):
     """Проверяем функцию на игнорирование элементов, которые не являются словарями или строками"""
@@ -194,30 +196,28 @@ def sample_operations():
         {"id": 5, "description": "Оплата мобильной связи"},
         {"id": 6, "description": "Перевод организации"},
         {"id": 7, "description": None},  # Операция с пустым описанием
-        {},                              # Пустой словарь операции
+        {},  # Пустой словарь операции
     ]
+
 
 def test_successful_counting(sample_operations):
     """Проверяем корректный подсчет существующих категорий"""
     categories = ["Перевод организации", "Оплата мобильной связи"]
-    expected = {
-        "Перевод организации": 3,
-        "Оплата мобильной связи": 2
-    }
+    expected = {"Перевод организации": 3, "Оплата мобильной связи": 2}
     assert process_bank_operations(sample_operations, categories) == expected
+
 
 def test_empty_categories(sample_operations):
     """Проверяем пустой список категорий возвращает пустой словарь"""
     assert process_bank_operations(sample_operations, []) == {}
 
+
 def test_empty_operations_data():
     """Проверяем пустой список операций возвращает нули для всех категорий"""
     categories = ["Покупка продуктов", "Перевод организации"]
-    expected = {
-        "Покупка продуктов": 0,
-        "Перевод организации": 0
-    }
+    expected = {"Покупка продуктов": 0, "Перевод организации": 0}
     assert process_bank_operations([], categories) == expected
+
 
 def test_category_not_in_data(sample_operations):
     """Проверяем категория, которой нет в данных, возвращает 0"""
@@ -225,11 +225,9 @@ def test_category_not_in_data(sample_operations):
     expected = {"Снятие наличных": 0}
     assert process_bank_operations(sample_operations, categories) == expected
 
+
 def test_mixed_results(sample_operations):
     """Проверяем запрос существующих и отсутствующих категорий одновременно"""
     categories = ["Покупка продуктов", "Неизвестная категория"]
-    expected = {
-        "Покупка продуктов": 1,
-        "Неизвестная категория": 0
-    }
+    expected = {"Покупка продуктов": 1, "Неизвестная категория": 0}
     assert process_bank_operations(sample_operations, categories) == expected

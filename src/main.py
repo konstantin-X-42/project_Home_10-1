@@ -1,35 +1,23 @@
-import os
 from pathlib import Path
-#-------------------------------------------------------------------
+
+# -------------------------------------------------------------------
 # --- ИМПОРТЫ ФУНКЦИЙ ---
 from src.decorators import log
 from src.excel_csv_reader import transactions_csv, transactions_excel
-from src.external_api import conversion_rub
-from src.generators import (
-    filter_by_currency,
-    transaction_descriptions,
-    card_number_generator
-)
-from src.masks import get_mask_card_number, get_mask_account
-from src.processing import (
-    filter_by_state,
-    sort_by_date,
-    process_bank_search,
-    process_bank_operations
-)
+from src.generators import filter_by_currency
+from src.processing import filter_by_state, process_bank_operations, process_bank_search, sort_by_date
 from src.utils import get_transactions
-from src.widget import mask_account_card, get_date
+from src.widget import get_date, mask_account_card
 
-#-------------------------------------------------------------------
+# -------------------------------------------------------------------
 
 # абсолютный путь к файлу лога относительно текущего файла main.py
 LOG_FILE_PATH = Path(__file__).resolve().parent / "logs" / "main.log"
-@log(str(LOG_FILE_PATH))
 
-def main():
-    print(
-        "Привет! Добро пожаловать в программу работы с банковскими транзакциями."
-    )
+
+@log(str(LOG_FILE_PATH))  # type: ignore
+def main():  # type: ignore
+    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
     print("Выберите необходимый пункт меню:")
     print("1. Получить информацию о транзакциях из JSON-файла")
     print("2. Получить информацию о транзакциях из CSV-файла")
@@ -43,13 +31,13 @@ def main():
     csv_path = BASE_DIR / "data" / "transactions.csv"
     xlsx_path = BASE_DIR / "data" / "transactions_excel.xlsx"
 
-#--------------------------------
+    # --------------------------------
     # # Пути к файлам данных
     # data_dir = "data"
     # json_path = os.path.join(data_dir, "operations.json")
     # csv_path = os.path.join(data_dir, "transactions.csv")
     # xlsx_path = os.path.join(data_dir, "transactions_excel.xlsx")
-#--------------------------------
+    # --------------------------------
 
     # Переменная для хранения списка транзакций
     transactions = []
@@ -70,24 +58,18 @@ def main():
             transactions = transactions_excel(str(xlsx_path))
             break
         else:
-            print(
-                "Программа: Неверный пункт меню. Пожалуйста, выберите 1, 2 или 3."
-            )
+            print("Программа: Неверный пункт меню. Пожалуйста, выберите 1, 2 или 3.")
 
     # 2. Фильтрация по статусу
     valid_statuses = ["EXECUTED", "CANCELED", "PENDING"]
     while True:
-        print(
-            "\nПрограмма: Введите статус, по которому необходимо выполнить фильтрацию."
-        )
+        print("\nПрограмма: Введите статус, по которому необходимо выполнить фильтрацию.")
         print("Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING")
 
         status_input = input("\nПользователь: ").strip().upper()
 
         if status_input in valid_statuses:
-            print(
-                f'\nПрограмма: Операции отфильтрованы по статусу "{status_input}"'
-            )
+            print(f'\nПрограмма: Операции отфильтрованы по статусу "{status_input}"')
             # СТЫКОВКА: Фильтруем по статусу state
             transactions = filter_by_state(transactions, status_input)
             break
@@ -114,15 +96,11 @@ def main():
         transactions = list(filter_by_currency(transactions, "RUB"))
 
     # 5. Фильтрация по ключевому слову в описании
-    print(
-        "\nПрограмма: Отфильтровать список транзакций по определенному слову в описании? Да/Нет"
-    )
+    print("\nПрограмма: Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
     desc_choice = input("\nПользователь: ").strip().lower()
 
     if desc_choice == "да":
-        search_word = input(
-            "\nПрограмма: Введите слово для поиска:\nПользователь: "
-        ).strip()
+        search_word = input("\nПрограмма: Введите слово для поиска:\nПользователь: ").strip()
         # СТЫКОВКА: Вызываем регистронезависимый поиск
         transactions = process_bank_search(transactions, search_word)
 
@@ -130,13 +108,9 @@ def main():
     print("\nПрограмма: Распечатываю итоговый список транзакций...")
 
     if not transactions:
-        print(
-            "\nПрограмма: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации"
-        )
+        print("\nПрограмма: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
     else:
-        print(
-            f"\nПрограмма:\nВсего банковских операций в выборке: {len(transactions)}\n"
-        )
+        print(f"\nПрограмма:\nВсего банковских операций в выборке: {len(transactions)}\n")
 
         # СТЫКОВКА С КАТЕГОРИЯМИ: Показываем сводку по часто встречающимся операциям
         test_categories = ["Перевод организации", "Интернет-банк", "Оплата"]
@@ -165,9 +139,7 @@ def main():
 
             # Расчет суммы в рублях (если валюта не RUB, можно применить conversion_rub)
             amount = tx.get("operationAmount", {}).get("amount", "0")
-            currency = (
-                tx.get("operationAmount", {}).get("currency", {}).get("name", "")
-            )
+            currency = tx.get("operationAmount", {}).get("currency", {}).get("name", "")
 
             print(f"{formatted_date} {description}")
             print(f"{masked_from} -> {masked_to}")
