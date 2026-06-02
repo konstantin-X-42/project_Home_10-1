@@ -16,7 +16,7 @@ def transactions_csv(file_path: str) -> List[Dict[str, Any]]:
     # utf-8-sig автоматически удаляет невидимый маркер BOM, который часто создает Excel
     with open(file_path, mode="r", encoding="utf-8-sig") as file:
         # DictReader автоматически использует первую строку файла как ключи словаря
-        reader = csv.DictReader(file)
+        reader = csv.DictReader(file, delimiter=";")
 
         for row in reader:
             # Превращаем row (объект DictRow) в обычный словарь Python

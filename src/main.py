@@ -1,5 +1,5 @@
 import os
-
+from pathlib import Path
 #-------------------------------------------------------------------
 # --- ИМПОРТЫ ФУНКЦИЙ ---
 from src.decorators import log
@@ -21,7 +21,11 @@ from src.utils import get_transactions
 from src.widget import mask_account_card, get_date
 
 #-------------------------------------------------------------------
-@log("main.log")
+
+# абсолютный путь к файлу лога относительно текущего файла main.py
+LOG_FILE_PATH = Path(__file__).resolve().parent / "logs" / "main.log"
+@log(str(LOG_FILE_PATH))
+
 def main():
     print(
         "Привет! Добро пожаловать в программу работы с банковскими транзакциями."
@@ -30,8 +34,6 @@ def main():
     print("1. Получить информацию о транзакциях из JSON-файла")
     print("2. Получить информацию о транзакциях из CSV-файла")
     print("3. Получить информацию о транзакциях из XLSX-файла")
-
-    from pathlib import Path
 
     # Определяем корень проекта (на уровень выше, чем папка src, где лежит main.py)
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,15 +60,14 @@ def main():
         if choice == "1":
             print("\nПрограмма: Для обработки выбран JSON-файл.")
             transactions = get_transactions(json_path)
-            print(f"DEBUG ПОСЛЕ ЗАГРУЗКИ: {type(transactions[0]) if transactions else 'Пусто'}")     # >>удалить
             break
         elif choice == "2":
             print("\nПрограмма: Для обработки выбран CSV-файл.")
-            transactions = transactions_csv(csv_path)
+            transactions = transactions_csv(str(csv_path))
             break
         elif choice == "3":
             print("\nПрограмма: Для обработки выбран XLSX-файл.")
-            transactions = transactions_excel(xlsx_path)
+            transactions = transactions_excel(str(xlsx_path))
             break
         else:
             print(
@@ -89,7 +90,6 @@ def main():
             )
             # СТЫКОВКА: Фильтруем по статусу state
             transactions = filter_by_state(transactions, status_input)
-            print(f"DEBUG: После фильтрации по статусу осталось: {len(transactions)} шт.")    # >>удалить
             break
         else:
             print(f'\nПрограмма: Статус операции "{status_input}" недоступен.')
@@ -105,7 +105,6 @@ def main():
         ascending = True if "возраст" in order_choice else False
         # СТЫКОВКА: Сортируем с помощью sort_by_date
         transactions = sort_by_date(transactions, reverse=not ascending)
-        print(f"DEBUG: После сортировки по дате осталось: {len(transactions)} шт.")  # >>удалить
 
     # 4. Фильтрация по валюте (только рубли)
     print("\nПрограмма: Выводить только рублевые транзакции? Да/Нет")
@@ -113,11 +112,7 @@ def main():
 
     if rub_choice == "да":
         transactions = list(filter_by_currency(transactions, "RUB"))
-# ---------------------------
-#     if rub_choice == "да":
-#         # СТЫКОВКА: Оставляем только RUB
-#         transactions = filter_by_currency(transactions, "RUB")
-# ---------------------------
+
     # 5. Фильтрация по ключевому слову в описании
     print(
         "\nПрограмма: Отфильтровать список транзакций по определенному слову в описании? Да/Нет"
@@ -129,9 +124,7 @@ def main():
             "\nПрограмма: Введите слово для поиска:\nПользователь: "
         ).strip()
         # СТЫКОВКА: Вызываем регистронезависимый поиск
-        print(f"DEBUG ТИП ПЕРВОГО ЭЛЕМЕНТА: {type(transactions[0]) if transactions else 'Список пуст'}")  # >>удалить
         transactions = process_bank_search(transactions, search_word)
-        print(f"DEBUG: После поиска по описанию осталось: {len(transactions)} шт.")  # >>удалить
 
     # 6. Вывод результатов
     print("\nПрограмма: Распечатываю итоговый список транзакций...")
@@ -154,7 +147,7 @@ def main():
             print(f" - {category}: {count} шт.")
         print("-" * 40)
 
-        # Вывод красивого списка транзакций через маскирование
+        # Вывод списка транзакций через маскирование
         for tx in transactions:
             # Получаем дату и маскируем её через widget
             raw_date = tx.get("date", "")
@@ -183,109 +176,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-#-------------------------------------------------------------------------
-#-------------------------------------------------------------------------
-#-------------------------------------------------------------------------
-
-# При необходимости добавьте импорты ваших функций, например:
-# from src.utils import read_json, read_csv, read_xlsx
-# from src.processing import filter_by_status, sort_by_date
-# from src.filters import filter_by_currency, filter_by_description
-# from src.generators import format_transaction
-
-# def main():
-#     print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.")
-#     print("Выберите необходимый пункт меню:")
-#     print("1. Получить информацию о транзакциях из JSON-файла")
-#     print("2. Получить информацию о транзакциях из CSV-файла")
-#     print("3. Получить информацию о транзакциях из XLSX-файла")
-#
-#     # Пути к файлам данных (замените на ваши актуальные пути)
-#     data_dir = "data"
-#     json_path = os.path.join(data_dir, "operations.json")
-#     csv_path = os.path.join(data_dir, "transactions.csv")
-#     xlsx_path = os.path.join(data_dir, "transactions_excel.xlsx")
-#
-#     # 1. Выбор источника данных
-#     while True:
-#         choice = input("\nПользователь: ").strip()
-#         if choice == "1":
-#             print("\nПрограмма: Для обработки выбран JSON-файл.")
-#             # transactions = read_json(json_path)
-#             transactions = []  # Временная заглушка для корректности синтаксиса
-#             break
-#         elif choice == "2":
-#             print("\nПрограмма: Для обработки выбран CSV-файл.")
-#             # transactions = read_csv(csv_path)
-#             transactions = []
-#             break
-#         elif choice == "3":
-#             print("\nПрограмма: Для обработки выбран XLSX-файл.")
-#             # transactions = read_xlsx(xlsx_path)
-#             transactions = []
-#             break
-#         else:
-#             print("Программа: Неверный пункт меню. Пожалуйста, выберите 1, 2 или 3.")
-#
-#     # 2. Фильтрация по статусу
-#     valid_statuses = ["EXECUTED", "CANCELED", "PENDING"]
-#     while True:
-#         print('\nПрограмма: Введите статус, по которому необходимо выполнить фильтрацию.')
-#         print('Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING')
-#
-#         status_input = input("\nПользователь: ").strip().upper()
-#
-#         if status_input in valid_statuses:
-#             print(f'\nПрограмма: Операции отфильтрованы по статусу "{status_input}"')
-#             # transactions = filter_by_status(transactions, status_input)
-#             break
-#         else:
-#             print(f'\nПрограмма: Статус операции "{status_input}" недоступен.')
-#
-#     # 3. Сортировка по дате
-#     print('\nПрограмма: Отсортировать операции по дате? Да/Нет')
-#     sort_choice = input("\nПользователь: ").strip().lower()
-#
-#     if sort_choice == "да":
-#         print('\nПрограмма: Отсортировать по возрастанию или по убыванию?')
-#         order_choice = input("\nПользователь: ").strip().lower()
-#
-#         ascending = True if "возраст" in order_choice else False
-#         # transactions = sort_by_date(transactions, reverse=not ascending)
-#
-#     # 4. Фильтрация по валюте (только рубли)
-#     print('\nПрограмма: Выводить только рублевые транзакции? Да/Нет')
-#     rub_choice = input("\nПользователь: ").strip().lower()
-#
-#     if rub_choice == "да":
-#         # transactions = filter_by_currency(transactions, "RUB")
-#         pass
-#
-#     # 5. Фильтрация по ключевому слову в описании
-#     print('\nПрограмма: Отфильтровать список транзакций по определенному слову в описании? Да/Нет')
-#     desc_choice = input("\nПользователь: ").strip().lower()
-#
-#     if desc_choice == "да":
-#         search_word = input("\nПрограмма: Введите слово для поиска:\nПользователь: ").strip()
-#         # transactions = filter_by_description(transactions, search_word)
-#
-#     # 6. Вывод результатов
-#     print('\nПрограмма: Распечатываю итоговый список транзакций...')
-#
-#     if not transactions:
-#         print('\nПрограмма: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации')
-#     else:
-#         print(f'\nПрограмма:\nВсего банковских операций в выборке: {len(transactions)}\n')
-#         for tx in transactions:
-#             # Здесь вызывается ваша функция форматирования вывода
-#             # print(format_transaction(tx))
-#             print()  # Пустая строка между транзакциями
-#
-#
-# if __name__ == "__main__":
-#     main()
