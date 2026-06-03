@@ -12,7 +12,7 @@ log = module_logger(
     logger_name="logs",  # имя папки (директория хранения лог файла)
     log_level=logging.DEBUG,  # уровень логирования DEBUG INFO WARNING ERROR CRITICAL
     overwrite=False,  # предыдущие логи в файле: False - оставить и записать, True - очистить и записать
-    log_console=True,  # лог: True - в файл и консоль, False - в файл
+    log_console=False,  # лог: True - в файл и консоль, False - в файл
 )
 log.info("Система логирования в модуле utils.py инициализирована успешно")
 # -------------------------------------------------------
@@ -45,9 +45,9 @@ def get_transactions(file: str | Path) -> list[dict[str, Any]]:
 
 # -----------вызываем функцию------------
 # Относительный путь от корня проекта
-# path_to_file = "../data/operations.json"
+# path_to_file = "../data_13_2_10/operations.json"
 
 # Абсолютный путь к файлу operations.json
-# path_to_file = CURRENT_DIR.parent / "data" / "operations.json"
+# path_to_file = CURRENT_DIR.parent / "data_13_2_10" / "operations.json"
 
 # print(get_transactions(path_to_file))

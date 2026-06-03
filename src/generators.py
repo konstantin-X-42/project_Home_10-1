@@ -58,8 +58,11 @@ def filter_by_currency(transactions: list[dict[str, Any]], currency: str) -> Ite
     Генератор, фильтрует транзакции по заданной валюте, выгружает пакетами элементов списка в (dict)
     """
     for transaction in transactions:
-        # достаем код валюты через .get(), чтобы избежать ошибок, если ключа нет
-        if transaction.get("operationAmount", {}).get("currency", {}).get("code") == currency:
+        # Проверяем, что transaction — это словарь, и только тогда ищем валюту
+        if (
+            isinstance(transaction, dict)
+            and transaction.get("operationAmount", {}).get("currency", {}).get("code") == currency
+        ):
             yield transaction
 
 
